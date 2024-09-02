@@ -5,8 +5,10 @@ import BookManageSystem.mapper.BookTypeMapper;
 import BookManageSystem.pojo.Admin;
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.BookType;
+import BookManageSystem.pojo.User;
 import BookManageSystem.service.BookInfoService;
 import BookManageSystem.utils.JSONUtil;
+import BookManageSystem.utils.JWTUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +52,28 @@ class BookManageSystemApplicationTests {
 
     @Test
     void testBookInfoSelectAllService() {
-        System.out.println(bookInfoService.selectAll());
+        System.out.println(bookInfoService.queryAllBook());
+    }
+
+    @Test
+    void testGenerateToken() {
+        User user = new User();
+        user.setUid("U101");
+        user.setPasswd("123456");
+
+        System.out.println(JWTUtil.generateJWT(user));
+    }
+
+    @Test
+    void testParseToken() {
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJVMTAxIiwicGFzc3dkIjoiMTIzNDU2IiwiZXhwIjoxNzI1MjgzMDIwfQ.KLNbvbzjjKJ8e6ncO0vsotuMQ8G30uy_xSdWHjXXl94";
+        User user = null;
+        try {
+            user = JWTUtil.verifyJWT(token);
+            System.out.println(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("令牌失效");
+        }
     }
 }
