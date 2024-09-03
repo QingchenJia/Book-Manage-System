@@ -15,4 +15,9 @@ public class UserServiceImpl implements UserService {
     public boolean verifyUserAccount(User user) {
         return userMapper.selectByUidAndPasswd(user) != null;
     }
+
+    @Override
+    public void addNewUser(User user) {
+        userMapper.insertUser(user);
+    }
 }

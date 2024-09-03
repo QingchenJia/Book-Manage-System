@@ -17,6 +17,8 @@ public class BookInfoServiceImpl implements BookInfoService {
     @Override
     public List<String> queryAllBook() {
         List<BookInfo> bookInfos = bookInfoMapper.selectAll();
-        return bookInfos.stream().map(JSONUtil::object2JSON).toList();
+        return bookInfos.stream()
+                .map(JSONUtil::object2JSON)
+                .toList();
     }
 }

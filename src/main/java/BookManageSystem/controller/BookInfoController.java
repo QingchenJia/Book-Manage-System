@@ -18,6 +18,6 @@ public class BookInfoController {
     @GetMapping("/selectAll")
     public Result selectAll() {
         List<String> data = bookInfoService.queryAllBook();
-        return Result.success("查询成功!", data);
+        return Result.success("查询成功", data);
     }
 }
