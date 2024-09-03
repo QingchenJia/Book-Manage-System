@@ -2,6 +2,7 @@ package BookManageSystem;
 
 import BookManageSystem.mapper.BookInfoMapper;
 import BookManageSystem.mapper.BookTypeMapper;
+import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.Admin;
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.BookType;
@@ -23,6 +24,8 @@ class BookManageSystemApplicationTests {
     private BookTypeMapper bookTypeMapper;
     @Autowired
     private BookInfoService bookInfoService;
+    @Autowired
+    private UserMapper userMapper;
 
     @Test
     void contextLoads() {
@@ -75,5 +78,17 @@ class BookManageSystemApplicationTests {
             e.printStackTrace();
             System.out.println("令牌失效");
         }
+    }
+
+    @Test
+    void testInsertUser() {
+        User user = new User();
+        user.setUid("U103");
+        user.setPasswd("123456");
+        user.setName("Ya lou");
+        user.setEmail("103@mail.com");
+        user.setPhone("12345678903");
+
+        userMapper.insertUser(user);
     }
 }
