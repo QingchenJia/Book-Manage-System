@@ -21,7 +21,7 @@ public interface BorrowMapper {
     @ResultMap("Borrow")
     List<Borrow> selectByUid(String uid);
 
-    @Select("SELECT * FROM borrow WHERE uid=(SELECT uid FROM user WHERE name=#{userName})")
+    @Select("SELECT * FROM borrow WHERE uid IN (SELECT uid FROM user WHERE name=#{userName})")
     @ResultMap("Borrow")
     List<Borrow> selectByUserName(String userName);
 

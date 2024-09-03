@@ -21,7 +21,7 @@ public interface BookInfoMapper {
     @ResultMap("BookInfo")
     List<BookInfo> selectByAuthor(String author);
 
-    @Select("SELECT bid, book_name, author, num, press, book_info.tid, status FROM book_info,book_type WHERE book_info.tid=book_type.tid AND type_name=#{typeName}")
+    @Select("SELECT * FROM book_info WHERE tid=(SELECT tid FROM book_type WHERE type_name=#{typeName})")
     @ResultMap("BookInfo")
     List<BookInfo> selectByTypeName(String typeName);
 
