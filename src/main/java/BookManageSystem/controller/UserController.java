@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping("/login")
     public Result login(User user) {
         if (userService.verifyUserAccount(user)) {
-            String token = JWTUtil.generateJWT(user);
+            String token = JWTUtil.generateJWT4User(user);
             return Result.success("登录成功", token);
         } else
             return Result.error("登录失败");

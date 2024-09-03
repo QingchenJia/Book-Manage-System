@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-public class UserLoginCheckInterceptor implements HandlerInterceptor {
+public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
@@ -24,13 +24,25 @@ public class UserLoginCheckInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        try {
-            JWTUtil.verifyJWT(token);
-        } catch (Exception e) {
-            log.info("令牌失效");
-            errorToken(response);
+        String role = request.getParameter("role");
+        if ("user".equals(role)) {
+            try {
+                JWTUtil.verifyJWT4User(token);
+            } catch (Exception e) {
+                log.info("令牌失效");
+                errorToken(response);
 
-            return false;
+                return false;
+            }
+        } else if ("admin".equals(role)) {
+            try {
+                JWTUtil.verifyJWT4Admin(token);
+            } catch (Exception e) {
+                log.info("令牌失效");
+                errorToken(response);
+
+                return false;
+            }
         }
 
         log.info("令牌合法");

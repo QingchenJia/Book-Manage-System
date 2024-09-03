@@ -1,6 +1,6 @@
 package BookManageSystem.config;
 
-import BookManageSystem.interceptor.UserLoginCheckInterceptor;
+import BookManageSystem.interceptor.LoginCheckInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Autowired
-    public UserLoginCheckInterceptor userLoginCheckInterceptor;
+    public LoginCheckInterceptor loginCheckInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userLoginCheckInterceptor).addPathPatterns("/**").excludePathPatterns("/User/login", "/User/register");
+        registry.addInterceptor(loginCheckInterceptor).addPathPatterns("/**").excludePathPatterns("/*/login", "/*/register");
     }
 }

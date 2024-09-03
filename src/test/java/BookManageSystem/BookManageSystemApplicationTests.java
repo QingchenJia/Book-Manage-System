@@ -64,7 +64,7 @@ class BookManageSystemApplicationTests {
         user.setUid("U101");
         user.setPasswd("123456");
 
-        System.out.println(JWTUtil.generateJWT(user));
+        System.out.println(JWTUtil.generateJWT4User(user));
     }
 
     @Test
@@ -72,7 +72,7 @@ class BookManageSystemApplicationTests {
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJVMTAxIiwicGFzc3dkIjoiMTIzNDU2IiwiZXhwIjoxNzI1MjgzMDIwfQ.KLNbvbzjjKJ8e6ncO0vsotuMQ8G30uy_xSdWHjXXl94";
         User user = null;
         try {
-            user = JWTUtil.verifyJWT(token);
+            user = JWTUtil.verifyJWT4User(token);
             System.out.println(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,5 +90,10 @@ class BookManageSystemApplicationTests {
         user.setPhone("12345678903");
 
         userMapper.insertUser(user);
+    }
+
+    @Test
+    void testStringMethod() {
+        System.out.println("qingchenjia".contains("gc"));
     }
 }
