@@ -24,12 +24,24 @@ public class Result {
         return "Result{" + "code=" + code + ", msg='" + msg + '\'' + ", data=" + data + '}';
     }
 
+    public static Result success() {
+        Result result = new Result();
+        result.setCode(1);
+        result.setMsg("success");
+
+        return result;
+    }
+
     public static Result success(String msg) {
         Result result = new Result();
         result.setCode(1);
         result.setMsg(msg);
 
         return result;
+    }
+
+    public static Result success(Object data) {
+        return new Result(1, "success", data);
     }
 
     public static Result success(String msg, Object data) {
