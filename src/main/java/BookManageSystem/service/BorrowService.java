@@ -14,4 +14,6 @@ public interface BorrowService {
     List<Borrow> queryBorrowByUserName(String userName);
 
     List<Borrow> queryBorrowByBid(String bid);
+
+    void borrowBook(String bid, String uid);
 }

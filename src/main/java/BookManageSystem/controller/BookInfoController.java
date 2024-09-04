@@ -16,9 +16,33 @@ public class BookInfoController {
     @Autowired
     public BookInfoService bookInfoService;
 
-    @GetMapping("/selectAll")
-    public Result selectAll() {
+    @GetMapping("/queryAll")
+    public Result queryAll() {
         List<BookInfo> data = bookInfoService.queryAllBook();
-        return Result.success("查询成功", data);
+        return Result.success(data);
+    }
+
+    @GetMapping("/queryByBookName")
+    public Result queryByBookName(String bookName) {
+        List<BookInfo> bookInfos = bookInfoService.queryBookByBookName(bookName);
+        return Result.success(bookInfos);
+    }
+
+    @GetMapping("/queryByAuthor")
+    public Result queryByAuthor(String author) {
+        List<BookInfo> bookInfos = bookInfoService.queryBookByAuthor(author);
+        return Result.success(bookInfos);
+    }
+
+    @GetMapping("/queryByTypeName")
+    public Result queryByTypeName(String typeName) {
+        List<BookInfo> bookInfos = bookInfoService.queryBookByTypeName(typeName);
+        return Result.success(bookInfos);
+    }
+
+    @GetMapping("/queryByBid")
+    public Result queryByBid(String bid) {
+        BookInfo bookInfo = bookInfoService.queryBookByBid(bid);
+        return Result.success(bookInfo);
     }
 }

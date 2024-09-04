@@ -37,4 +37,9 @@ public class BorrowServiceImpl implements BorrowService {
     public List<Borrow> queryBorrowByBid(String bid) {
         return borrowMapper.selectByBid(bid);
     }
+
+    @Override
+    public void borrowBook(String bid, String uid) {
+
+    }
 }
