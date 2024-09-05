@@ -28,4 +28,17 @@ public interface BorrowMapper {
     @Select("SELECT * FROM borrow WHERE bid=#{bid}")
     @ResultMap("Borrow")
     List<Borrow> selectByBid(String bid);
+
+    @Select("SELECT * FROM borrow WHERE uid=#{uid} AND is_return=0")
+    @ResultMap("Borrow")
+    List<Borrow> selectByUidAndIsNotReturn(String uid);
+
+
+    @Select("SELECT * FROM borrow WHERE uid=#{uid} AND is_return=0 AND bid IN (SELECT bid FROM book_info WHERE book_name=#{bookName})")
+    @ResultMap("Borrow")
+    List<Borrow> selectByUidAndIsNotReturnAndBookName(String uid, String bookName);
+
+    @Select("SELECT * FROM borrow WHERE uid=#{uid} AND is_return=0 AND bid=#{bid}")
+    @ResultMap("Borrow")
+    Borrow selectByUidAndIsNotReturnAndBid(String uid, String bid);
 }

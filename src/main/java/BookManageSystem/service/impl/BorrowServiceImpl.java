@@ -39,7 +39,17 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void borrowBook(String bid, String uid) {
+    public List<Borrow> queryMyAllBorrow(String uid) {
+        return borrowMapper.selectByUidAndIsNotReturn(uid);
+    }
 
+    @Override
+    public List<Borrow> queryMyBorrowByBookName(String uid, String bookName) {
+        return borrowMapper.selectByUidAndIsNotReturnAndBookName(uid, bookName);
+    }
+
+    @Override
+    public Borrow queryMyBorrowByBid(String uid,String bid) {
+        return borrowMapper.selectByUidAndIsNotReturnAndBid(uid,bid);
     }
 }

@@ -1,4 +1,4 @@
-package BookManageSystem.pojo.tool;
+package BookManageSystem.pojo.respdata;
 
 import lombok.Getter;
 import lombok.Setter;

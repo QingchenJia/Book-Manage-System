@@ -1,7 +1,7 @@
 package BookManageSystem.controller;
 
 import BookManageSystem.pojo.Borrow;
-import BookManageSystem.pojo.tool.Result;
+import BookManageSystem.pojo.respdata.Result;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +43,12 @@ public class BorrowController {
     @GetMapping("/queryByBid")
     public Result queryByBid(String bid) {
         List<Borrow> borrows = borrowService.queryBorrowByBid(bid);
+        return Result.success(borrows);
+    }
+
+    @GetMapping("/queryMyAllBorrow")
+    public Result queryMyAllBorrow(String uid) {
+        List<Borrow> borrows = borrowService.queryMyAllBorrow(uid);
         return Result.success(borrows);
     }
 }

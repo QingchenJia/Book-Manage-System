@@ -11,16 +11,18 @@ public class Borrow {
     private String bid;
     private String uid;
     private Date borrowDate;
+    private Date dueDate;
     private Date returnDate;
     private int isReturn;
 
     public Borrow() {
     }
 
-    public Borrow(String bid, String uid, Date borrowDate, Date returnDate, int isReturn) {
+    public Borrow(String bid, String uid, Date borrowDate, Date dueDate, Date returnDate, int isReturn) {
         this.bid = bid;
         this.uid = uid;
         this.borrowDate = borrowDate;
+        this.dueDate = dueDate;
         this.returnDate = returnDate;
         this.isReturn = isReturn;
     }
@@ -31,6 +33,7 @@ public class Borrow {
                 "bid='" + bid + '\'' +
                 ", uid='" + uid + '\'' +
                 ", borrowDate=" + borrowDate +
+                ", dueDate=" + dueDate +
                 ", returnDate=" + returnDate +
                 ", isReturn=" + isReturn +
                 '}';

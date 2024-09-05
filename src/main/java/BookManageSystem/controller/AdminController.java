@@ -1,7 +1,7 @@
 package BookManageSystem.controller;
 
 import BookManageSystem.pojo.Admin;
-import BookManageSystem.pojo.tool.Result;
+import BookManageSystem.pojo.respdata.Result;
 import BookManageSystem.service.AdminService;
 import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;

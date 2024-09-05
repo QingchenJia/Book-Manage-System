@@ -1,6 +1,6 @@
 package BookManageSystem.interceptor;
 
-import BookManageSystem.pojo.tool.Result;
+import BookManageSystem.pojo.respdata.Result;
 import BookManageSystem.utils.JSONUtil;
 import BookManageSystem.utils.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
