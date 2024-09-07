@@ -13,6 +13,10 @@ public interface BorrowMapper {
     @ResultMap("Borrow")
     List<Borrow> selectAll();
 
+    @Select("SELECT * FROM borrow WHERE bid=#{bid} AND uid=#{uid}")
+    @ResultMap("Borrow")
+    Borrow selectByBidAndUid(String bid, String uid);
+
     @Select("SELECT * FROM borrow WHERE bid IN (SELECT bid FROM book_info WHERE book_name=#{bookName})")
     @ResultMap("Borrow")
     List<Borrow> selectByBookName(String bookName);
@@ -33,7 +37,6 @@ public interface BorrowMapper {
     @ResultMap("Borrow")
     List<Borrow> selectByUidAndIsNotReturn(String uid);
 
-
     @Select("SELECT * FROM borrow WHERE uid=#{uid} AND is_return=0 AND bid IN (SELECT bid FROM book_info WHERE book_name=#{bookName})")
     @ResultMap("Borrow")
     List<Borrow> selectByUidAndIsNotReturnAndBookName(String uid, String bookName);
@@ -53,4 +56,7 @@ public interface BorrowMapper {
     @Select("SELECT * FROM borrow WHERE uid=#{uid} AND is_return=1 AND bid=#{bid}")
     @ResultMap("Borrow")
     List<Borrow> selectByUidAndIsReturnAndBid(String uid, String bid);
+
+    @Select("SELECT COUNT(*) FROM borrow WHERE bid=${bid} AND is_return=0")
+    int selectBorrowNumByBid(String bid);
 }

@@ -11,6 +11,10 @@ public interface BookTypeMapper {
     @ResultMap("BookType")
     List<BookType> selectAll();
 
+    @Select("SELECT * FROM book_type WHERE tid=#{tid}")
+    @ResultMap("BookType")
+    BookType selectByTid(String tid);
+
     @Select("SELECT * FROM book_type WHERE type_name=#{typeName}")
     @ResultMap("BookType")
     BookType selectByTypeName(String typeName);

@@ -2,6 +2,7 @@ package BookManageSystem.controller;
 
 import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.Result;
+import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,23 @@ public class BorrowController {
     public Result queryBorrowInfoByBid(String uid, String bid) {
         List<BorrowInfo> borrowInfos = borrowService.queryBorrowInfoByBid(uid, bid);
         return Result.success(borrowInfos);
+    }
+
+    @GetMapping("/queryAllBorrowHistory")
+    public Result queryAllBorrowHistory(String uid) {
+        List<BorrowHistory> borrowHistories = borrowService.queryAllBorrowHistory(uid);
+        return Result.success(borrowHistories);
+    }
+
+    @GetMapping("/queryBorrowHistoryByBookName")
+    public Result queryBorrowHistoryByBookName(String uid, String bookName) {
+        List<BorrowHistory> borrowHistories = borrowService.queryBorrowHistoryByBookName(uid, bookName);
+        return Result.success(borrowHistories);
+    }
+
+    @GetMapping("/queryBorrowHistoryByBid")
+    public Result queryBorrowHistoryByBid(String uid, String bid) {
+        List<BorrowHistory> borrowHistories = borrowService.queryBorrowHistoryByBid(uid, bid);
+        return Result.success(borrowHistories);
     }
 }
