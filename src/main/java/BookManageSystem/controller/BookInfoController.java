@@ -2,6 +2,7 @@ package BookManageSystem.controller;
 
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.resp.Result;
+import BookManageSystem.pojo.resp.data.BookSearch;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,13 @@ public class BookInfoController {
 
     @GetMapping("/queryByBid")
     public Result queryByBid(String bid) {
-        BookInfo bookInfo = bookInfoService.queryBookByBid(bid);
-        return Result.success(bookInfo);
+        List<BookInfo> bookInfos = bookInfoService.queryBookByBid(bid);
+        return Result.success(bookInfos);
+    }
+
+    @GetMapping("/queryAllBookSearch")
+    public Result queryAllBookSearch(String uid) {
+        List<BookSearch> bookSearches = bookInfoService.queryAllBookSearch(uid);
+        return Result.success(bookSearches);
     }
 }

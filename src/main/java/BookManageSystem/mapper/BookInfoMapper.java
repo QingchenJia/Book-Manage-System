@@ -27,5 +27,5 @@ public interface BookInfoMapper {
 
     @Select("SELECT * FROM book_info WHERE bid=#{bid}")
     @ResultMap("BookInfo")
-    BookInfo selectByBid(String bid);
+    List<BookInfo> selectByBid(String bid);
 }
