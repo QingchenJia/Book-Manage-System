@@ -1,7 +1,7 @@
 package BookManageSystem.controller;
 
 import BookManageSystem.pojo.BookInfo;
-import BookManageSystem.pojo.respdata.Result;
+import BookManageSystem.pojo.resp.Result;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,8 @@
 package BookManageSystem.service;
 
 import BookManageSystem.pojo.Borrow;
+import BookManageSystem.pojo.resp.data.BorrowHistory;
+import BookManageSystem.pojo.resp.data.BorrowInfo;
 
 import java.util.List;
 
@@ -15,9 +17,15 @@ public interface BorrowService {
 
     List<Borrow> queryBorrowByBid(String bid);
 
-    List<Borrow> queryMyAllBorrow(String uid);
+    List<BorrowInfo> queryAllBorrowInfo(String uid);
 
-    List<Borrow> queryMyBorrowByBookName(String uid, String bookName);
+    List<BorrowInfo> queryBorrowInfoByBookName(String uid, String bookName);
 
-    Borrow queryMyBorrowByBid(String uid, String bid);
+    List<BorrowInfo> queryBorrowInfoByBid(String uid, String bid);
+
+    List<BorrowHistory> queryAllBorrowHistory(String uid);
+
+    List<BorrowHistory> queryBorrowHistoryByBookName(String uid, String bookName);
+
+    List<BorrowHistory> queryBorrowHistoryByBid(String uid, String bid);
 }
