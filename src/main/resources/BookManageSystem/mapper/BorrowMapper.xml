@@ -5,8 +5,8 @@
 <mapper namespace="BookManageSystem.mapper.BorrowMapper">
     <resultMap id="Borrow" type="BookManageSystem.pojo.Borrow">
         <id column="bid" property="bid"/>
-        <result column="uid" property="uid"/>
-        <result column="borrow_date" property="borrowDate"/>
+        <id column="uid" property="uid"/>
+        <id column="borrow_date" property="borrowDate"/>
         <result column="due_date" property="dueDate"/>
         <result column="return_date" property="returnDate"/>
         <result column="is_return" property="isReturn"/>
