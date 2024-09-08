@@ -52,4 +52,28 @@ public class BookInfoController {
         List<BookSearch> bookSearches = bookInfoService.queryAllBookSearch(uid);
         return Result.success(bookSearches);
     }
+
+    @GetMapping("/queryBookSearchByBookName")
+    public Result queryBookSearchByBookName(String uid, String bookName) {
+        List<BookSearch> bookSearches = bookInfoService.queryBookSearchByBookName(uid, bookName);
+        return Result.success(bookSearches);
+    }
+
+    @GetMapping("/queryBookSearchByAuthor")
+    public Result queryBookSearchByAuthor(String uid, String author) {
+        List<BookSearch> bookSearches = bookInfoService.queryBookSearchByAuthor(uid, author);
+        return Result.success(bookSearches);
+    }
+
+    @GetMapping("/queryAllBookSearch")
+    public Result queryBookSearchByTypeName(String uid, String typeName) {
+        List<BookSearch> bookSearches = bookInfoService.queryBookSearchByTypeName(uid, typeName);
+        return Result.success(bookSearches);
+    }
+
+    @GetMapping("/queryBookSearchByBid")
+    public Result queryBookSearchByBid(String uid) {
+        List<BookSearch> bookSearches = bookInfoService.queryAllBookSearch(uid);
+        return Result.success(bookSearches);
+    }
 }

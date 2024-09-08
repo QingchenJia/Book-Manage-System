@@ -25,6 +25,4 @@ public interface BookInfoService {
     List<BookSearch> queryBookSearchByTypeName(String uid, String typeName);
 
     List<BookSearch> queryBookSearchByBid(String uid, String bid);
-
-
 }

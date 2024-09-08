@@ -45,7 +45,11 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public List<BookInfo> queryBookByBid(String bid) {
-        return bookInfoMapper.selectByBid(bid);
+        BookInfo bookInfo = bookInfoMapper.selectByBid(bid);
+        List<BookInfo> bookInfos = new ArrayList<>();
+        bookInfos.add(bookInfo);
+
+        return bookInfos;
     }
 
     @Override
@@ -74,7 +78,10 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public List<BookSearch> queryBookSearchByBid(String uid, String bid) {
-        List<BookInfo> bookInfos = bookInfoMapper.selectByBid(bid);
+        BookInfo bookInfo = bookInfoMapper.selectByBid(bid);
+        List<BookInfo> bookInfos = new ArrayList<>();
+        bookInfos.add(bookInfo);
+
         return bookInfos2bookSearches(uid, bookInfos);
     }
 
