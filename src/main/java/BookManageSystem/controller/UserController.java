@@ -21,8 +21,7 @@ public class UserController {
         if (userService.verifyUserAccount(user)) {
             String token = JWTUtil.generateJWT4User(user);
             return Result.success("登录成功", token);
-        } else
-            return Result.error("登录失败");
+        } else return Result.error("登录失败");
     }
 
 
@@ -30,5 +29,16 @@ public class UserController {
     public Result register(@RequestBody User user) {
         userService.addNewUser(user);
         return Result.success("注册成功");
+    }
+
+    @PostMapping("/editInfo")
+    public Result editInfo(@RequestBody User user, String newPasswd) {
+        if (userService.verifyUserAccount(user)) {
+            user.setPasswd(newPasswd);
+            userService.updateUser(user);
+
+            return Result.success("修改成功");
+        } else
+            return Result.error("密码错误");
     }
 }

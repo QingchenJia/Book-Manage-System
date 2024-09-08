@@ -1,6 +1,7 @@
 package BookManageSystem.mapper;
 
 import BookManageSystem.pojo.Borrow;
+import BookManageSystem.pojo.resp.data.BorrowInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
