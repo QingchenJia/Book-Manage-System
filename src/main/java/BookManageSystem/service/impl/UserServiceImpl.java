@@ -26,9 +26,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) throws Exception {
+    public void editUser(User user) throws Exception {
         passwd2ciphertext(user);
         userMapper.updateUser(user);
+    }
+
+    @Override
+    public User getUserInfo(String uid) {
+        return userMapper.selectByUid(uid);
     }
 
     private void passwd2ciphertext(User user) throws Exception {

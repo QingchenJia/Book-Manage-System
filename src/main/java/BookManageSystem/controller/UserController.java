@@ -5,10 +5,7 @@ import BookManageSystem.pojo.resp.Result;
 import BookManageSystem.service.UserService;
 import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/User")
@@ -36,10 +33,18 @@ public class UserController {
     public Result editInfo(@RequestBody User user, String newPasswd) throws Exception {
         if (userService.verifyUserAccount(user)) {
             user.setPasswd(newPasswd);
-            userService.updateUser(user);
+            userService.editUser(user);
 
             return Result.success("修改成功");
         } else
             return Result.error("密码错误");
+    }
+
+    @GetMapping("/getInfo")
+    public Result getInfo(String uid) {
+        User user = userService.getUserInfo(uid);
+        user.setPasswd(null);
+
+        return Result.success(user);
     }
 }

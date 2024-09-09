@@ -7,5 +7,7 @@ public interface UserService {
 
     void addNewUser(User user) throws Exception;
 
-    void updateUser(User user) throws Exception;
+    void editUser(User user) throws Exception;
+
+    User getUserInfo(String uid);
 }
