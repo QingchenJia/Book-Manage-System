@@ -16,7 +16,7 @@ public class AdminController {
     public AdminService adminService;
 
     @PostMapping("/login")
-    public Result login(Admin admin) {
+    public Result login(Admin admin) throws Exception {
         if (adminService.verifyAdminAccount(admin)) {
             String token = JWTUtil.generateJWT4Admin(admin);
             return Result.success("登陆成功", token);

@@ -10,6 +10,5 @@
         <result column="num" property="num"/>
         <result column="press" property="press"/>
         <result column="tid" property="tid"/>
-        <result column="status" property="status"/>
     </resultMap>
 </mapper>

@@ -65,7 +65,7 @@ public class BookInfoController {
         return Result.success(bookSearches);
     }
 
-    @GetMapping("/queryAllBookSearch")
+    @GetMapping("/queryBookSearchByTypeName")
     public Result queryBookSearchByTypeName(String uid, String typeName) {
         List<BookSearch> bookSearches = bookInfoService.queryBookSearchByTypeName(uid, typeName);
         return Result.success(bookSearches);

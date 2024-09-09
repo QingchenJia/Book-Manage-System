@@ -17,22 +17,23 @@ public class UserController {
     public UserService userService;
 
     @PostMapping("/login")
-    public Result login(@RequestBody User user) {
+    public Result login(@RequestBody User user) throws Exception {
         if (userService.verifyUserAccount(user)) {
             String token = JWTUtil.generateJWT4User(user);
             return Result.success("登录成功", token);
-        } else return Result.error("登录失败");
+        } else
+            return Result.error("登录失败");
     }
 
 
     @PostMapping("/register")
-    public Result register(@RequestBody User user) {
+    public Result register(@RequestBody User user) throws Exception {
         userService.addNewUser(user);
         return Result.success("注册成功");
     }
 
     @PostMapping("/editInfo")
-    public Result editInfo(@RequestBody User user, String newPasswd) {
+    public Result editInfo(@RequestBody User user, String newPasswd) throws Exception {
         if (userService.verifyUserAccount(user)) {
             user.setPasswd(newPasswd);
             userService.updateUser(user);

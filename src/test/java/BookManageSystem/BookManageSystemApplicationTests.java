@@ -8,6 +8,7 @@ import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.BookType;
 import BookManageSystem.pojo.User;
 import BookManageSystem.service.BookInfoService;
+import BookManageSystem.utils.CipherUtil;
 import BookManageSystem.utils.JSONUtil;
 import BookManageSystem.utils.JWTUtil;
 import org.junit.jupiter.api.Test;
@@ -95,5 +96,11 @@ class BookManageSystemApplicationTests {
     @Test
     void testStringMethod() {
         System.out.println("qingchenjia".contains("gc"));
+    }
+
+    @Test
+    void testCipherUtil() throws Exception {
+        String encrypt = CipherUtil.encrypt("123456");
+        System.out.println(encrypt);
     }
 }

@@ -3,6 +3,7 @@ package BookManageSystem.service.impl;
 import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.User;
 import BookManageSystem.service.UserService;
+import BookManageSystem.utils.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,26 @@ public class UserServiceImpl implements UserService {
     public UserMapper userMapper;
 
     @Override
-    public boolean verifyUserAccount(User user) {
+    public boolean verifyUserAccount(User user) throws Exception {
+        passwd2ciphertext(user);
+
         return userMapper.selectByUidAndPasswd(user) != null;
     }
 
     @Override
-    public void addNewUser(User user) {
+    public void addNewUser(User user) throws Exception {
+        passwd2ciphertext(user);
         userMapper.insertUser(user);
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user) throws Exception {
+        passwd2ciphertext(user);
         userMapper.updateUser(user);
+    }
+
+    private void passwd2ciphertext(User user) throws Exception {
+        String ciphertextPasswd = CipherUtil.encrypt(user.getPasswd());
+        user.setPasswd(ciphertextPasswd);
     }
 }
