@@ -7,9 +7,11 @@ import BookManageSystem.pojo.resp.data.BorrowInfo;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -82,5 +84,17 @@ public class BorrowController {
     public Result queryBorrowHistoryByBid(String uid, String bid) {
         List<BorrowHistory> borrowHistories = borrowService.queryBorrowHistoryByBid(uid, bid);
         return Result.success(borrowHistories);
+    }
+
+    @PostMapping("/borrowBook")
+    public Result borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
+        borrowService.borrowBook(bid, uid, borrowDate);
+        return Result.success("借阅成功");
+    }
+
+    @PostMapping("/returnBook")
+    public Result returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate) {
+        borrowService.returnBook(bid, uid, borrowDate, returnDate);
+        return Result.success("归还成功");
     }
 }

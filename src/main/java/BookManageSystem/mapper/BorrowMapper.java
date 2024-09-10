@@ -3,7 +3,7 @@ package BookManageSystem.mapper;
 import BookManageSystem.pojo.Borrow;
 import org.apache.ibatis.annotations.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -63,8 +63,8 @@ public interface BorrowMapper {
     int selectBorrowNumByUid(String uid);
 
     @Insert("INSERT INTO borrow (bid, uid, borrow_date, due_date, is_return) VALUES (#{bid},#{uid},#{borrowDate},#{dueDate},0)")
-    void insertBorrowExceptReturnDate(String bid, String uid, Date borrowDate, Date dueDate);
+    void insertBorrowExceptReturnDate(String bid, String uid, Timestamp borrowDate, Timestamp dueDate);
 
-    @Update("UPDATE borrow SET return_date=#{returnDate} WHERE bid=#{bid} AND uid=#{uid} AND borrow_date=#{borrowDate}")
-    void updateReturnDateAndIsReturn(String bid, String uid, Date borrowDate, Date returnDate);
+    @Update("UPDATE borrow SET return_date=#{returnDate},is_return=1 WHERE bid=#{bid} AND uid=#{uid} AND borrow_date=#{borrowDate}")
+    void updateReturnDateAndIsReturn(String bid, String uid, Timestamp borrowDate, Timestamp returnDate);
 }

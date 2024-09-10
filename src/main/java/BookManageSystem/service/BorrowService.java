@@ -4,6 +4,8 @@ import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface BorrowService {
@@ -28,4 +30,8 @@ public interface BorrowService {
     List<BorrowHistory> queryBorrowHistoryByBookName(String uid, String bookName);
 
     List<BorrowHistory> queryBorrowHistoryByBid(String uid, String bid);
+
+    void borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception;
+
+    void returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate);
 }

@@ -2,6 +2,7 @@ package BookManageSystem.service.impl;
 
 import BookManageSystem.mapper.BookInfoMapper;
 import BookManageSystem.mapper.BorrowMapper;
+import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
@@ -10,7 +11,9 @@ import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -19,6 +22,8 @@ public class BorrowServiceImpl implements BorrowService {
     public BorrowMapper borrowMapper;
     @Autowired
     public BookInfoMapper bookInfoMapper;
+    @Autowired
+    public UserMapper userMapper;
 
     @Override
     public List<Borrow> queryAllBorrow() {
@@ -81,6 +86,26 @@ public class BorrowServiceImpl implements BorrowService {
         return borrows2borrowHistories(borrows);
     }
 
+    @Override
+    public void borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
+        int borrowedNum = borrowMapper.selectBorrowNumByBid(uid);
+        int maxBorrowNum = userMapper.selectBorrowNumByUid(uid);
+
+        if (borrowedNum == maxBorrowNum) {
+            throw new Exception("借阅数量已达上限");
+        }
+
+        int borrowDays = userMapper.selectBorrowDaysByUid(uid);
+        Timestamp dueDate = getTimestampAfterDays(borrowDate, borrowDays);
+
+        borrowMapper.insertBorrowExceptReturnDate(bid, uid, borrowDate, dueDate);
+    }
+
+    @Override
+    public void returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate) {
+        borrowMapper.updateReturnDateAndIsReturn(bid, uid, borrowDate, returnDate);
+    }
+
     private List<BorrowInfo> borrows2borrowInfos(List<Borrow> borrows) {
         List<BorrowInfo> borrowInfos = new ArrayList<>();
 
@@ -113,5 +138,13 @@ public class BorrowServiceImpl implements BorrowService {
         }
 
         return borrowHistories;
+    }
+
+    private Timestamp getTimestampAfterDays(Timestamp timestamp, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(timestamp);
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+
+        return new Timestamp(calendar.getTimeInMillis());
     }
 }
