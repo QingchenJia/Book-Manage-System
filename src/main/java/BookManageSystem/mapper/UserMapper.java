@@ -27,4 +27,10 @@ public interface UserMapper {
     List<User> selectByName(String name);
 
     void updateUser(User user);
+
+    @Select("SELECT borrow_days FROM user WHERE uid=#{uid}")
+    int selectBorrowDaysByUid(String uid);
+
+    @Select("SELECT borrow_num FROM user WHERE uid=#{uid}")
+    int selectBorrowNumByUid(String uid);
 }

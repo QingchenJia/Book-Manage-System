@@ -42,9 +42,7 @@ public class UserController {
 
     @GetMapping("/getInfo")
     public Result getInfo(String uid) {
-        User user = userService.getUserInfo(uid);
-        user.setPasswd(null);
-
+        User user = userService.getUserInfoExceptPasswd(uid);
         return Result.success(user);
     }
 }

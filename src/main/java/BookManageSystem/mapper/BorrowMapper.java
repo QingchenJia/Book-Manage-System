@@ -1,11 +1,9 @@
 package BookManageSystem.mapper;
 
 import BookManageSystem.pojo.Borrow;
-import BookManageSystem.pojo.resp.data.BorrowInfo;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @Mapper
@@ -60,4 +58,13 @@ public interface BorrowMapper {
 
     @Select("SELECT COUNT(*) FROM borrow WHERE bid=${bid} AND is_return=0")
     int selectBorrowNumByBid(String bid);
+
+    @Select("SELECT COUNT(*) FROM borrow WHERE uid=${uid} AND is_return=0")
+    int selectBorrowNumByUid(String uid);
+
+    @Insert("INSERT INTO borrow (bid, uid, borrow_date, due_date, is_return) VALUES (#{bid},#{uid},#{borrowDate},#{dueDate},0)")
+    void insertBorrowExceptReturnDate(String bid, String uid, Date borrowDate, Date dueDate);
+
+    @Update("UPDATE borrow SET return_date=#{returnDate} WHERE bid=#{bid} AND uid=#{uid} AND borrow_date=#{borrowDate}")
+    void updateReturnDateAndIsReturn(String bid, String uid, Date borrowDate, Date returnDate);
 }

@@ -32,8 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserInfo(String uid) {
-        return userMapper.selectByUid(uid);
+    public User getUserInfoExceptPasswd(String uid) {
+        User user = userMapper.selectByUid(uid);
+        user.setPasswd(null);
+
+        return user;
     }
 
     private void passwd2ciphertext(User user) throws Exception {
