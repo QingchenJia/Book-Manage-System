@@ -3,22 +3,22 @@ package BookManageSystem.pojo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Setter
 @Getter
 public class Borrow {
     private String bid;
     private String uid;
-    private Date borrowDate;
-    private Date dueDate;
-    private Date returnDate;
+    private Timestamp borrowDate;
+    private Timestamp dueDate;
+    private Timestamp returnDate;
     private int isReturn;
 
     public Borrow() {
     }
 
-    public Borrow(String bid, String uid, Date borrowDate, Date dueDate, Date returnDate, int isReturn) {
+    public Borrow(String bid, String uid, Timestamp borrowDate, Timestamp dueDate, Timestamp returnDate, int isReturn) {
         this.bid = bid;
         this.uid = uid;
         this.borrowDate = borrowDate;

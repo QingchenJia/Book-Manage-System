@@ -3,20 +3,20 @@ package BookManageSystem.pojo.resp.data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Setter
 @Getter
 public class BorrowInfo {
     private String bookName;
     private String bid;
-    private Date borrowDate;
-    private Date dueDate;
+    private Timestamp borrowDate;
+    private Timestamp dueDate;
 
     public BorrowInfo() {
     }
 
-    public BorrowInfo(String bookName, String bid, Date borrowDate, Date dueDate) {
+    public BorrowInfo(String bookName, String bid, Timestamp borrowDate, Timestamp dueDate) {
         this.bookName = bookName;
         this.bid = bid;
         this.borrowDate = borrowDate;
