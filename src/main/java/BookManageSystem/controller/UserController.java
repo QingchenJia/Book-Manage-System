@@ -7,6 +7,8 @@ import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/User")
 public class UserController {
@@ -18,8 +20,7 @@ public class UserController {
         if (userService.verifyUserAccount(user)) {
             String token = JWTUtil.generateJWT4User(user);
             return Result.success("登录成功", token);
-        } else
-            return Result.error("登录失败");
+        } else return Result.error("登录失败");
     }
 
 
@@ -30,19 +31,43 @@ public class UserController {
     }
 
     @PostMapping("/editInfo")
-    public Result editInfo(@RequestBody User user, String newPasswd) throws Exception {
-        if (userService.verifyUserAccount(user)) {
-            user.setPasswd(newPasswd);
-            userService.editUser(user);
+    public Result editInfo(@RequestBody Map<String, Object> params) {
+        String uid = (String) params.get("uid");
+        String name = (String) params.get("name");
+        String email = (String) params.get("email");
+        String phone = (String) params.get("phone");
 
-            return Result.success("修改成功");
-        } else
-            return Result.error("密码错误");
+        User user = new User();
+        user.setUid(uid);
+        user.setName(name);
+        user.setEmail(email);
+        user.setPhone(phone);
+
+        userService.editUserInfo(user);
+
+        return Result.success("修改成功");
     }
 
     @GetMapping("/getInfo")
     public Result getInfo(String uid) {
         User user = userService.getUserInfoExceptPasswd(uid);
         return Result.success(user);
+    }
+
+    @PostMapping("/changePasswd")
+    public Result changePasswd(@RequestBody Map<String, Object> params) throws Exception {
+        String uid = (String) params.get("uid");
+        String passwd = (String) params.get("passwd");
+        String newPasswd = (String) params.get("newPasswd");
+
+        User user = new User();
+        user.setUid(uid);
+        user.setPasswd(passwd);
+
+        if (userService.verifyUserAccount(user)) {
+            userService.changePasswd(uid, newPasswd);
+            return Result.success("修改成功");
+        } else
+            return Result.error("密码错误");
     }
 }

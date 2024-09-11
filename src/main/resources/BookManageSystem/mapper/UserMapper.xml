@@ -16,8 +16,7 @@
         UPDATE user
         <set>
             <if test="name!=null">name=#{name},</if>
-            <if test="passwd!=null">passwd=#{passwd},</if>
-            <if test="email!=null>">email=#{email},</if>
+            <if test="email!=null">email=#{email},</if>
             <if test="phone!=null">phone=#{phone}</if>
             WHERE uid = #{uid};
         </set>

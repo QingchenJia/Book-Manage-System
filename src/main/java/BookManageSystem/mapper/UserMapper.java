@@ -1,10 +1,7 @@
 package BookManageSystem.mapper;
 
 import BookManageSystem.pojo.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,4 +30,7 @@ public interface UserMapper {
 
     @Select("SELECT borrow_num FROM user WHERE uid=#{uid}")
     int selectBorrowNumByUid(String uid);
+
+    @Update("UPDATE user SET passwd=#{passwd} WHERE uid=#{uid}")
+    void updatePasswdByUid(String uid, String passwd);
 }

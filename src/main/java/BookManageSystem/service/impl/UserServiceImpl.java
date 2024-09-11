@@ -15,7 +15,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean verifyUserAccount(User user) throws Exception {
         passwd2ciphertext(user);
-
         return userMapper.selectByUidAndPasswd(user) != null;
     }
 
@@ -26,8 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User user) throws Exception {
-        passwd2ciphertext(user);
+    public void editUserInfo(User user) {
         userMapper.updateUser(user);
     }
 
@@ -37,6 +35,12 @@ public class UserServiceImpl implements UserService {
         user.setPasswd(null);
 
         return user;
+    }
+
+    @Override
+    public void changePasswd(String uid, String passwd) throws Exception {
+        String ciphertext = CipherUtil.encrypt(passwd);
+        userMapper.updatePasswdByUid(uid, ciphertext);
     }
 
     private void passwd2ciphertext(User user) throws Exception {
