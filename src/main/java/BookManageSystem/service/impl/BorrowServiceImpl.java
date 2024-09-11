@@ -88,7 +88,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public void borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
-        int borrowedNum = borrowMapper.selectBorrowNumByBid(bid);
+        int borrowedNum = borrowMapper.selectBorrowNumByUid(uid);
         int maxBorrowNum = userMapper.selectBorrowNumByUid(uid);
 
         if (borrowedNum == maxBorrowNum) {
@@ -128,6 +128,13 @@ public class BorrowServiceImpl implements BorrowService {
             ));
         }
 
+        borrowInfos.sort((o1, o2) -> {
+            long l = o1.getBorrowDate().getTime() - o2.getBorrowDate().getTime();
+
+            int i = l > 0 ? 1 : -1;
+            return -i;
+        });
+
         return borrowInfos;
     }
 
@@ -144,6 +151,15 @@ public class BorrowServiceImpl implements BorrowService {
                     borrow.getReturnDate()
             ));
         }
+
+        borrowHistories.sort((o1, o2) -> {
+            // 进行排序 借阅时间归还时间靠前 排序靠后
+            long l = o1.getBorrowDate().getTime() - o2.getBorrowDate().getTime();
+            l = l == 0 ? o1.getReturnDate().getTime() - o2.getReturnDate().getTime() : l;
+
+            int i = l > 0 ? 1 : -1;
+            return -i;
+        });
 
         return borrowHistories;
     }

@@ -5,7 +5,10 @@ import BookManageSystem.mapper.BookTypeMapper;
 import BookManageSystem.mapper.BorrowMapper;
 import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.*;
+import BookManageSystem.pojo.resp.data.BorrowHistory;
+import BookManageSystem.pojo.resp.data.BorrowInfo;
 import BookManageSystem.service.BookInfoService;
+import BookManageSystem.service.BorrowService;
 import BookManageSystem.utils.CipherUtil;
 import BookManageSystem.utils.JSONUtil;
 import BookManageSystem.utils.JWTUtil;
@@ -30,6 +33,8 @@ class BookManageSystemApplicationTests {
     private BookInfoService bookInfoService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private BorrowService borrowService;
 
     @Autowired
     private BorrowMapper borrowMapper;
@@ -193,5 +198,17 @@ class BookManageSystemApplicationTests {
     void num2Timestamp() {
         Timestamp timestamp = new Timestamp(1726034613000L);
         System.out.println(timestamp);
+    }
+
+    @Test
+    void testBorrowHistorySort() {
+        List<BorrowHistory> borrowHistories = borrowService.queryAllBorrowHistory("U101");
+        borrowHistories.forEach(System.out::println);
+    }
+
+    @Test
+    void testBorrowInfoSort() {
+        List<BorrowInfo> borrowInfos = borrowService.queryAllBorrowInfo("U103");
+        borrowInfos.forEach(System.out::println);
     }
 }

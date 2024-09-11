@@ -59,7 +59,7 @@ public interface BorrowMapper {
     @Select("SELECT COUNT(*) FROM borrow WHERE bid=${bid} AND is_return=0")
     int selectBorrowNumByBid(String bid);
 
-    @Select("SELECT COUNT(*) FROM borrow WHERE uid=${uid} AND is_return=0")
+    @Select("SELECT COUNT(*) FROM borrow WHERE uid=#{uid} AND is_return=0")
     int selectBorrowNumByUid(String uid);
 
     @Insert("INSERT INTO borrow (bid, uid, borrow_date, due_date, is_return) VALUES (#{bid},#{uid},#{borrowDate},#{dueDate},0)")
