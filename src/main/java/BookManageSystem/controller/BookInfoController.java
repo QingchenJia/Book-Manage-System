@@ -72,8 +72,8 @@ public class BookInfoController {
     }
 
     @GetMapping("/queryBookSearchByBid")
-    public Result queryBookSearchByBid(String uid) {
-        List<BookSearch> bookSearches = bookInfoService.queryAllBookSearch(uid);
+    public Result queryBookSearchByBid(String uid, String bid) {
+        List<BookSearch> bookSearches = bookInfoService.queryBookSearchByBid(uid, bid);
         return Result.success(bookSearches);
     }
 }

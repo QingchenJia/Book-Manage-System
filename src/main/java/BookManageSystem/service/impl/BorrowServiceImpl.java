@@ -88,7 +88,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public void borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
-        int borrowedNum = borrowMapper.selectBorrowNumByBid(uid);
+        int borrowedNum = borrowMapper.selectBorrowNumByBid(bid);
         int maxBorrowNum = userMapper.selectBorrowNumByUid(uid);
 
         if (borrowedNum == maxBorrowNum) {
@@ -103,6 +103,14 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public void returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate) {
+        borrowMapper.updateReturnDateAndIsReturn(bid, uid, borrowDate, returnDate);
+    }
+
+    @Override
+    public void returnBook(String bid, String uid, Timestamp returnDate) {
+        Borrow borrow = borrowMapper.selectByBidAndUidAndIsNotReturn(bid, uid);
+        Timestamp borrowDate = borrow.getBorrowDate();
+
         borrowMapper.updateReturnDateAndIsReturn(bid, uid, borrowDate, returnDate);
     }
 
@@ -141,6 +149,7 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     private Timestamp getTimestampAfterDays(Timestamp timestamp, int days) {
+        // 获取指定日期时间后多少天的日期时间
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timestamp);
         calendar.add(Calendar.DAY_OF_MONTH, days);

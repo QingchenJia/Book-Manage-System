@@ -91,13 +91,13 @@ public class BookInfoServiceImpl implements BookInfoService {
         for (BookInfo bookInfo : bookInfos) {
             BookType bookType = bookTypeMapper.selectByTid(bookInfo.getTid());
             int borrowNum = borrowMapper.selectBorrowNumByBid(bookInfo.getBid());
-            Borrow borrow = borrowMapper.selectByBidAndUid(bookInfo.getBid(), uid);
+            Borrow borrow = borrowMapper.selectByBidAndUidAndIsNotReturn(bookInfo.getBid(), uid);   // 同一个人借阅同一本书可能多次 仅查询最新一次 即尚未归还
 
             bookSearches.add(new BookSearch(
                     bookInfo.getBookName(),
                     bookInfo.getBid(),
                     bookInfo.getAuthor(),
-                    bookInfo.getNum() - borrowNum,
+                    bookInfo.getNum() - borrowNum,  // 书籍存量减去借出数量得到余量
                     bookInfo.getPress(),
                     bookType.getTypeName(),
                     borrow != null && borrow.getIsReturn() == 0 ? "借阅中" : "注意余量"

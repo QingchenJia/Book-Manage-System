@@ -6,13 +6,11 @@ import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/Borrow")
@@ -87,14 +85,31 @@ public class BorrowController {
     }
 
     @PostMapping("/borrowBook")
-    public Result borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
+    public Result borrowBook(@RequestBody Map<String, Object> params) throws Exception {
+        String bid = (String) params.get("bid");
+        String uid = (String) params.get("uid");
+        Timestamp borrowDate = new Timestamp((Long) params.get("borrowDate"));
+
         borrowService.borrowBook(bid, uid, borrowDate);
+
         return Result.success("借阅成功");
     }
 
     @PostMapping("/returnBook")
-    public Result returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate) {
-        borrowService.returnBook(bid, uid, borrowDate, returnDate);
+    public Result returnBook(@RequestBody Map<String, Object> params) {
+        String bid = (String) params.get("bid");
+        String uid = (String) params.get("uid");
+
+        Object bd = params.get("borrowDate");
+
+        Timestamp returnDate = new Timestamp((Long) params.get("returnDate"));
+
+        if (bd != null) {
+            Timestamp borrowDate = new Timestamp((Long) bd);
+            borrowService.returnBook(bid, uid, borrowDate, returnDate);
+        } else
+            borrowService.returnBook(bid, uid, returnDate);
+
         return Result.success("归还成功");
     }
 }

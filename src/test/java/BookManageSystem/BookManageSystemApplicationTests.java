@@ -188,4 +188,10 @@ class BookManageSystemApplicationTests {
                 currentTimestamp,
                 futureTimestamp);
     }
+
+    @Test
+    void num2Timestamp() {
+        Timestamp timestamp = new Timestamp(1726034613000L);
+        System.out.println(timestamp);
+    }
 }

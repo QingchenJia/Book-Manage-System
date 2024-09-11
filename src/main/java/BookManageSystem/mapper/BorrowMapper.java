@@ -12,9 +12,9 @@ public interface BorrowMapper {
     @ResultMap("Borrow")
     List<Borrow> selectAll();
 
-    @Select("SELECT * FROM borrow WHERE bid=#{bid} AND uid=#{uid}")
+    @Select("SELECT * FROM borrow WHERE bid=#{bid} AND uid=#{uid} AND is_return=0")
     @ResultMap("Borrow")
-    Borrow selectByBidAndUid(String bid, String uid);
+    Borrow selectByBidAndUidAndIsNotReturn(String bid, String uid);
 
     @Select("SELECT * FROM borrow WHERE bid IN (SELECT bid FROM book_info WHERE book_name=#{bookName})")
     @ResultMap("Borrow")
