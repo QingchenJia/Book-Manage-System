@@ -4,6 +4,7 @@ import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.Result;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
+import BookManageSystem.pojo.resp.data.BorrowOverview;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -111,5 +112,35 @@ public class BorrowController {
             borrowService.returnBook(bid, uid, returnDate);
 
         return Result.success("归还成功");
+    }
+
+    @GetMapping("/queryAllBookOverview")
+    public Result queryAllBookOverview() {
+        List<BorrowOverview> borrowOverviews = borrowService.queryAllBorrowOverview();
+        return Result.success(borrowOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByBookName")
+    public Result queryBookOverviewByBookName(String bookName) {
+        List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByBookName(bookName);
+        return Result.success(borrowOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByBid")
+    public Result queryBookOverviewByBid(String bid) {
+        List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByBid(bid);
+        return Result.success(borrowOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByUserName")
+    public Result queryBookOverviewByUserName(String userName) {
+        List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByUserName(userName);
+        return Result.success(borrowOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByUid")
+    public Result queryBookOverviewByUid(String uid) {
+        List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByUid(uid);
+        return Result.success(borrowOverviews);
     }
 }

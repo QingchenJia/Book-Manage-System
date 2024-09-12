@@ -7,6 +7,7 @@ import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
+import BookManageSystem.pojo.resp.data.BorrowOverview;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,6 +115,36 @@ public class BorrowServiceImpl implements BorrowService {
         borrowMapper.updateReturnDateAndIsReturn(bid, uid, borrowDate, returnDate);
     }
 
+    @Override
+    public List<BorrowOverview> queryAllBorrowOverview() {
+        List<Borrow> borrows = borrowMapper.selectAll();
+        return borrows2borrowOverviews(borrows);
+    }
+
+    @Override
+    public List<BorrowOverview> queryBorrowOverviewByBookName(String bookName) {
+        List<Borrow> borrows = borrowMapper.selectByBookName(bookName);
+        return borrows2borrowOverviews(borrows);
+    }
+
+    @Override
+    public List<BorrowOverview> queryBorrowOverviewByBid(String bid) {
+        List<Borrow> borrows = borrowMapper.selectByBid(bid);
+        return borrows2borrowOverviews(borrows);
+    }
+
+    @Override
+    public List<BorrowOverview> queryBorrowOverviewByUserName(String userName) {
+        List<Borrow> borrows = borrowMapper.selectByUserName(userName);
+        return borrows2borrowOverviews(borrows);
+    }
+
+    @Override
+    public List<BorrowOverview> queryBorrowOverviewByUid(String uid) {
+        List<Borrow> borrows = borrowMapper.selectByUid(uid);
+        return borrows2borrowOverviews(borrows);
+    }
+
     private List<BorrowInfo> borrows2borrowInfos(List<Borrow> borrows) {
         List<BorrowInfo> borrowInfos = new ArrayList<>();
 
@@ -171,5 +202,33 @@ public class BorrowServiceImpl implements BorrowService {
         calendar.add(Calendar.DAY_OF_MONTH, days);
 
         return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    private List<BorrowOverview> borrows2borrowOverviews(List<Borrow> borrows) {
+        List<BorrowOverview> borrowOverviews = new ArrayList<>();
+
+        for (Borrow borrow : borrows) {
+            String bookName = bookInfoMapper.selectByBid(borrow.getBid()).getBookName();
+            String name = userMapper.selectByUid(borrow.getUid()).getName();
+
+            borrowOverviews.add(new BorrowOverview(
+                    bookName,
+                    borrow.getBid(),
+                    borrow.getUid(),
+                    name,
+                    borrow.getBorrowDate(),
+                    borrow.getDueDate(),
+                    borrow.getIsReturn() == 1 ? "已归还" : "借阅中"
+            ));
+        }
+
+        borrowOverviews.sort((o1, o2) -> {
+            long l = o1.getBorrowDate().getTime() - o2.getBorrowDate().getTime();
+
+            int i = l > 0 ? 1 : -1;
+            return -i;
+        });
+
+        return borrowOverviews;
     }
 }

@@ -3,6 +3,7 @@ package BookManageSystem.service;
 import BookManageSystem.pojo.Borrow;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
+import BookManageSystem.pojo.resp.data.BorrowOverview;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,4 +36,14 @@ public interface BorrowService {
     void returnBook(String bid, String uid, Timestamp borrowDate, Timestamp returnDate);
 
     void returnBook(String bid, String uid, Timestamp returnDate);
+
+    List<BorrowOverview> queryAllBorrowOverview();
+
+    List<BorrowOverview> queryBorrowOverviewByBookName(String bookName);
+
+    List<BorrowOverview> queryBorrowOverviewByBid(String bid);
+
+    List<BorrowOverview> queryBorrowOverviewByUserName(String userName);
+
+    List<BorrowOverview> queryBorrowOverviewByUid(String uid);
 }
