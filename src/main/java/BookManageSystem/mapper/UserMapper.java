@@ -33,4 +33,14 @@ public interface UserMapper {
 
     @Update("UPDATE user SET passwd=#{passwd} WHERE uid=#{uid}")
     void updatePasswdByUid(String uid, String passwd);
+
+    @Select("SELECT * FROM user")
+    @ResultMap("User")
+    List<User> selectAll();
+
+    @Update("UPDATE user SET borrow_days=#{borrowDays} WHERE uid=#{uid}")
+    void updateBorrowDaysByUid(String uid, int borrowDays);
+
+    @Update("UPDATE user SET borrow_num=#{borrowNum} WHERE uid=#{uid}")
+    void updateBorrowNumByUid(String uid, int borrowNUm);
 }

@@ -11,13 +11,13 @@ public class User {
     private String name;
     private String email;
     private String phone;
-    private String borrowNum;
-    private String borrowDays;
+    private int borrowNum;
+    private int borrowDays;
 
     public User() {
     }
 
-    public User(String uid, String passwd, String name, String email, String phone, String borrowNum, String borrowDays) {
+    public User(String uid, String passwd, String name, String email, String phone, int borrowNum, int borrowDays) {
         this.uid = uid;
         this.passwd = passwd;
         this.name = name;
