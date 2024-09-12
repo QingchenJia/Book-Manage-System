@@ -2,12 +2,11 @@ package BookManageSystem.controller;
 
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.resp.Result;
+import BookManageSystem.pojo.resp.data.BookOverview;
 import BookManageSystem.pojo.resp.data.BookSearch;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -75,5 +74,41 @@ public class BookInfoController {
     public Result queryBookSearchByBid(String uid, String bid) {
         List<BookSearch> bookSearches = bookInfoService.queryBookSearchByBid(uid, bid);
         return Result.success(bookSearches);
+    }
+
+    @GetMapping("/queryAllBookOverview")
+    public Result queryAllBookOverview() {
+        List<BookOverview> bookOverviews = bookInfoService.queryAllBookOverview();
+        return Result.success(bookOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByBookName")
+    public Result queryBookOverviewByBookName(String bookName) {
+        List<BookOverview> bookOverviews = bookInfoService.queryBookOverviewByBookName(bookName);
+        return Result.success(bookOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByBid")
+    public Result queryBookOverviewByBid(String bid) {
+        List<BookOverview> bookOverviews = bookInfoService.queryBookOverviewByBid(bid);
+        return Result.success(bookOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByAuthor")
+    public Result queryBookOverviewByAuthor(String author) {
+        List<BookOverview> bookOverviews = bookInfoService.queryBookOverviewByAuthor(author);
+        return Result.success(bookOverviews);
+    }
+
+    @GetMapping("/queryBookOverviewByTypeName")
+    public Result queryBookOverviewByTypeName(String typeName) {
+        List<BookOverview> bookOverviews = bookInfoService.queryBookOverviewByTypeName(typeName);
+        return Result.success(bookOverviews);
+    }
+
+    @PostMapping("/addNewBook")
+    public Result addNewBook(@RequestBody BookOverview bookOverview) {
+        bookInfoService.addNewBook(bookOverview);
+        return Result.success("新增成功");
     }
 }

@@ -1,6 +1,7 @@
 package BookManageSystem.mapper;
 
 import BookManageSystem.pojo.BookInfo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -28,4 +29,7 @@ public interface BookInfoMapper {
     @Select("SELECT * FROM book_info WHERE bid=#{bid}")
     @ResultMap("BookInfo")
     BookInfo selectByBid(String bid);
+
+    @Insert("INSERT INTO book_info VALUES (#{bid},#{bookName},#{author},#{num},#{press},#{tid})")
+    void insertBookInfo(BookInfo bookInfo);
 }

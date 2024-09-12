@@ -1,6 +1,7 @@
 package BookManageSystem.service;
 
 import BookManageSystem.pojo.BookInfo;
+import BookManageSystem.pojo.resp.data.BookOverview;
 import BookManageSystem.pojo.resp.data.BookSearch;
 
 import java.util.List;
@@ -25,4 +26,16 @@ public interface BookInfoService {
     List<BookSearch> queryBookSearchByTypeName(String uid, String typeName);
 
     List<BookSearch> queryBookSearchByBid(String uid, String bid);
+
+    List<BookOverview> queryAllBookOverview();
+
+    List<BookOverview> queryBookOverviewByBookName(String bookName);
+
+    List<BookOverview> queryBookOverviewByBid(String bid);
+
+    List<BookOverview> queryBookOverviewByAuthor(String author);
+
+    List<BookOverview> queryBookOverviewByTypeName(String typeName);
+
+    void addNewBook(BookOverview bookOverview);
 }

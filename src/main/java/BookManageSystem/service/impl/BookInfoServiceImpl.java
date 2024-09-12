@@ -6,6 +6,7 @@ import BookManageSystem.mapper.BorrowMapper;
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.BookType;
 import BookManageSystem.pojo.Borrow;
+import BookManageSystem.pojo.resp.data.BookOverview;
 import BookManageSystem.pojo.resp.data.BookSearch;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,55 @@ public class BookInfoServiceImpl implements BookInfoService {
         return bookInfos2bookSearches(uid, bookInfos);
     }
 
+    @Override
+    public List<BookOverview> queryAllBookOverview() {
+        List<BookInfo> bookInfos = bookInfoMapper.selectAll();
+        return bookInfos2bookOverviews(bookInfos);
+    }
+
+    @Override
+    public List<BookOverview> queryBookOverviewByBookName(String bookName) {
+        List<BookInfo> bookInfos = bookInfoMapper.selectByBookName(bookName);
+        return bookInfos2bookOverviews(bookInfos);
+    }
+
+    @Override
+    public List<BookOverview> queryBookOverviewByBid(String bid) {
+        BookInfo bookInfo = bookInfoMapper.selectByBid(bid);
+        List<BookInfo> bookInfos = new ArrayList<>();
+        bookInfos.add(bookInfo);
+
+        return bookInfos2bookOverviews(bookInfos);
+    }
+
+    @Override
+    public List<BookOverview> queryBookOverviewByAuthor(String author) {
+        List<BookInfo> bookInfos = bookInfoMapper.selectByAuthor(author);
+        return bookInfos2bookOverviews(bookInfos);
+    }
+
+    @Override
+    public List<BookOverview> queryBookOverviewByTypeName(String typeName) {
+        List<BookInfo> bookInfos = bookInfoMapper.selectByTypeName(typeName);
+        return bookInfos2bookOverviews(bookInfos);
+    }
+
+    @Override
+    public void addNewBook(BookOverview bookOverview) {
+        String tid = bookTypeMapper.selectByTypeName(bookOverview.getTypeName()).getTid();
+
+        BookInfo bookInfo = new BookInfo(
+                bookOverview.getBid(),
+                bookOverview.getBookName(),
+                bookOverview.getAuthor(),
+                bookOverview.getNum(),
+                bookOverview.getPress(),
+                tid
+        );
+
+        bookInfoMapper.insertBookInfo(bookInfo);
+    }
+
     private List<BookSearch> bookInfos2bookSearches(String uid, List<BookInfo> bookInfos) {
         List<BookSearch> bookSearches = new ArrayList<>();
 
@@ -105,5 +155,28 @@ public class BookInfoServiceImpl implements BookInfoService {
         }
 
         return bookSearches;
+    }
+
+
+    private List<BookOverview> bookInfos2bookOverviews(List<BookInfo> bookInfos) {
+        List<BookOverview> bookOverviews = new ArrayList<>();
+
+        for (BookInfo bookInfo : bookInfos) {
+            int borrowedNum = borrowMapper.selectBorrowNumByBid(bookInfo.getBid()); // 借出数量
+            int leftNum = bookInfo.getNum() - borrowedNum;  // 库存余量
+
+            String typeName = bookTypeMapper.selectByTid(bookInfo.getTid()).getTypeName();
+
+            bookOverviews.add(new BookOverview(
+                    bookInfo.getBookName(),
+                    bookInfo.getBid(),
+                    bookInfo.getAuthor(),
+                    leftNum,
+                    bookInfo.getPress(),
+                    typeName
+            ));
+        }
+
+        return bookOverviews;
     }
 }
