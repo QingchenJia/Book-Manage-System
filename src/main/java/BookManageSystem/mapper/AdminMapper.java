@@ -13,6 +13,5 @@ public interface AdminMapper {
     Admin searchByAidAndPasswd(Admin admin);
 
     @Update("UPDATE admin SET passwd=#{passwd} WHERE aid=#{aid}")
-    @ResultMap("Admin")
     void updatePasswd(Admin admin);
 }
