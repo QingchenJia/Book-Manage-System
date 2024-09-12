@@ -7,6 +7,7 @@ import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -69,5 +70,41 @@ public class UserController {
             return Result.success("修改成功");
         } else
             return Result.error("密码错误");
+    }
+
+    @GetMapping("/queryAllUser")
+    public Result queryAllUser() {
+        List<User> users = userService.queryAllUser();
+        return Result.success(users);
+    }
+
+    @GetMapping("/queryUserByUid")
+    public Result queryUserByUid(String uid) {
+        List<User> users = userService.queryUserByUid(uid);
+        return Result.success(users);
+    }
+
+    @GetMapping("/queryUserByName")
+    public Result queryUserByName(String name) {
+        List<User> users = userService.queryUserByName(name);
+        return Result.success(users);
+    }
+
+    @PostMapping("/changeBorrowDays")
+    public Result changeBorrowDays(@RequestBody Map<String, Object> params) {
+        String uid = (String) params.get("uid");
+        int borrowDays = (int) params.get("borrowDays");
+
+        userService.changeBorrowDays(uid, borrowDays);
+        return Result.success("修改成功");
+    }
+
+    @PostMapping("/changeBorrowNum")
+    public Result changeBorrowNum(@RequestBody Map<String, Object> params) {
+        String uid = (String) params.get("uid");
+        int borrowNum = (int) params.get("borrowNum");
+
+        userService.changeBorrowNum(uid, borrowNum);
+        return Result.success("修改成功");
     }
 }
