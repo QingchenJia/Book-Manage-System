@@ -21,7 +21,8 @@ public class UserController {
         if (userService.verifyUserAccount(user)) {
             String token = JWTUtil.generateJWT4User(user);
             return Result.success("登录成功", token);
-        } else return Result.error("登录失败");
+        } else
+            return Result.error("登录失败");
     }
 
 
@@ -90,21 +91,32 @@ public class UserController {
         return Result.success(users);
     }
 
-    @PostMapping("/changeBorrowDays")
-    public Result changeBorrowDays(@RequestBody Map<String, Object> params) {
+    @PostMapping("/changeBorrowNum")
+    public Result changeBorrowPower(@RequestBody Map<String, Object> params) {
+        // 修改用户的借阅权限 借阅天数和借阅本数
         String uid = (String) params.get("uid");
-        int borrowDays = (int) params.get("borrowDays");
+        Object bd = params.get("borrowDays");
+        Object bn = params.get("borrowNum");
 
-        userService.changeBorrowDays(uid, borrowDays);
+        if (bd != null) {
+            int borrowDays = (int) bd;
+            userService.changeBorrowDays(uid, borrowDays);
+        }
+
+        if (bn != null) {
+            int borrowNum = (int) bn;
+            userService.changeBorrowNum(uid, borrowNum);
+        }
+
         return Result.success("修改成功");
     }
 
-    @PostMapping("/changeBorrowNum")
-    public Result changeBorrowNum(@RequestBody Map<String, Object> params) {
-        String uid = (String) params.get("uid");
-        int borrowNum = (int) params.get("borrowNum");
 
-        userService.changeBorrowNum(uid, borrowNum);
-        return Result.success("修改成功");
+    @PostMapping("/resetPasswd")
+    public Result resetPasswd(@RequestBody Map<String, Object> params) throws Exception {
+        String uid = (String) params.get("uid");
+        userService.changePasswd(uid, "123456");
+
+        return Result.success("重置成功");
     }
 }
