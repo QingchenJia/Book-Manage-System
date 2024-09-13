@@ -209,13 +209,13 @@ public class BorrowServiceImpl implements BorrowService {
 
         for (Borrow borrow : borrows) {
             String bookName = bookInfoMapper.selectByBid(borrow.getBid()).getBookName();
-            String name = userMapper.selectByUid(borrow.getUid()).getName();
+            String userName = userMapper.selectByUid(borrow.getUid()).getName();
 
             borrowOverviews.add(new BorrowOverview(
                     bookName,
                     borrow.getBid(),
                     borrow.getUid(),
-                    name,
+                    userName,
                     borrow.getBorrowDate(),
                     borrow.getDueDate(),
                     borrow.getIsReturn() == 1 ? "已归还" : "借阅中"

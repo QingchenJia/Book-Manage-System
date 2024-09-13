@@ -114,32 +114,32 @@ public class BorrowController {
         return Result.success("归还成功");
     }
 
-    @GetMapping("/queryAllBookOverview")
-    public Result queryAllBookOverview() {
+    @GetMapping("/queryAllBorrowOverview")
+    public Result queryAllBorrowOverview() {
         List<BorrowOverview> borrowOverviews = borrowService.queryAllBorrowOverview();
         return Result.success(borrowOverviews);
     }
 
-    @GetMapping("/queryBookOverviewByBookName")
-    public Result queryBookOverviewByBookName(String bookName) {
+    @GetMapping("/queryBorrowOverviewByBookName")
+    public Result queryBorrowOverviewByBookName(String bookName) {
         List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByBookName(bookName);
         return Result.success(borrowOverviews);
     }
 
-    @GetMapping("/queryBookOverviewByBid")
-    public Result queryBookOverviewByBid(String bid) {
+    @GetMapping("/queryBorrowOverviewByBid")
+    public Result queryBorrowOverviewByBid(String bid) {
         List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByBid(bid);
         return Result.success(borrowOverviews);
     }
 
-    @GetMapping("/queryBookOverviewByUserName")
-    public Result queryBookOverviewByUserName(String userName) {
+    @GetMapping("/queryBorrowOverviewByUserName")
+    public Result queryBorrowOverviewByUserName(String userName) {
         List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByUserName(userName);
         return Result.success(borrowOverviews);
     }
 
-    @GetMapping("/queryBookOverviewByUid")
-    public Result queryBookOverviewByUid(String uid) {
+    @GetMapping("/queryBorrowOverviewByUid")
+    public Result queryBorrowOverviewByUid(String uid) {
         List<BorrowOverview> borrowOverviews = borrowService.queryBorrowOverviewByUid(uid);
         return Result.success(borrowOverviews);
     }
