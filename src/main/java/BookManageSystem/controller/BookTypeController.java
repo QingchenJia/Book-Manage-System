@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/BookType")
@@ -22,19 +23,27 @@ public class BookTypeController {
 
     @GetMapping("/queryByTypeName")
     public Result queryByTypeName(String typeName) {
-        BookType bookType = bookTypeService.queryTypeByTypeName(typeName);
+        List<BookType> bookType = bookTypeService.queryTypeByTypeName(typeName);
+        return Result.success(bookType);
+    }
+
+    @GetMapping("/queryByTid")
+    public Result queryByTid(String tid) {
+        List<BookType> bookType = bookTypeService.queryTypeByTid(tid);
         return Result.success(bookType);
     }
 
     @PostMapping("/addNewType")
-    public Result addNewType(BookType bookType) {
+    public Result addNewType(@RequestBody BookType bookType) {
         bookTypeService.addNewType(bookType);
-        return Result.success();
+        return Result.success("添加成功");
     }
 
     @DeleteMapping("/deleteType")
-    public Result deleteType(String tid) {
+    public Result deleteType(@RequestBody Map<String, Object> params) {
+        String tid = (String) params.get("tid");
         bookTypeService.deleteTypeByTid(tid);
-        return Result.success();
+
+        return Result.success("删除成功");
     }
 }

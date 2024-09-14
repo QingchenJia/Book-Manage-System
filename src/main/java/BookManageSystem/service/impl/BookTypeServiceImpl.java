@@ -6,6 +6,7 @@ import BookManageSystem.service.BookTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,21 @@ public class BookTypeServiceImpl implements BookTypeService {
     }
 
     @Override
-    public BookType queryTypeByTypeName(String typeName) {
-        return bookTypeMapper.selectByTypeName(typeName);
+    public List<BookType> queryTypeByTypeName(String typeName) {
+        BookType bookType = bookTypeMapper.selectByTypeName(typeName);
+        List<BookType> bookTypes = new ArrayList<>();
+        bookTypes.add(bookType);
+
+        return bookTypes;
+    }
+
+    @Override
+    public List<BookType> queryTypeByTid(String tid) {
+        BookType bookType = bookTypeMapper.selectByTid(tid);
+        List<BookType> bookTypes = new ArrayList<>();
+        bookTypes.add(bookType);
+
+        return bookTypes;
     }
 
     @Override

@@ -7,7 +7,9 @@ import java.util.List;
 public interface BookTypeService {
     List<BookType> queryAllType();
 
-    BookType queryTypeByTypeName(String typeName);
+    List<BookType> queryTypeByTypeName(String typeName);
+
+    List<BookType> queryTypeByTid(String tid);
 
     void addNewType(BookType bookType);
 
