@@ -135,6 +135,11 @@ public class BookInfoServiceImpl implements BookInfoService {
         bookInfoMapper.insertBookInfo(bookInfo);
     }
 
+    @Override
+    public void deleteBook(String bid) {
+        bookInfoMapper.deleteByBid(bid);
+    }
+
     private List<BookSearch> bookInfos2bookSearches(String uid, List<BookInfo> bookInfos) {
         List<BookSearch> bookSearches = new ArrayList<>();
 

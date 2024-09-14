@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/BookInfo")
@@ -110,5 +111,13 @@ public class BookInfoController {
     public Result addNewBook(@RequestBody BookOverview bookOverview) {
         bookInfoService.addNewBook(bookOverview);
         return Result.success("新增成功");
+    }
+
+    @PostMapping("/deleteBook")
+    public Result deleteBook(@RequestBody Map<String, Object> params) {
+        String bid = (String) params.get("bid");
+        bookInfoService.deleteBook(bid);
+
+        return Result.success("删除成功");
     }
 }

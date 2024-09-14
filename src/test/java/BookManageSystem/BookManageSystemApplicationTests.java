@@ -211,4 +211,9 @@ class BookManageSystemApplicationTests {
         List<BorrowInfo> borrowInfos = borrowService.queryAllBorrowInfo("U103");
         borrowInfos.forEach(System.out::println);
     }
+
+    @Test
+    void testDeleteBookException() {
+        bookInfoService.deleteBook("1");
+    }
 }

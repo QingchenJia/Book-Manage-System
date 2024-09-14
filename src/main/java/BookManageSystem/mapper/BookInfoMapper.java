@@ -1,10 +1,7 @@
 package BookManageSystem.mapper;
 
 import BookManageSystem.pojo.BookInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,7 @@ public interface BookInfoMapper {
 
     @Insert("INSERT INTO book_info VALUES (#{bid},#{bookName},#{author},#{num},#{press},#{tid})")
     void insertBookInfo(BookInfo bookInfo);
+
+    @Delete("DELETE FROM book_info WHERE bid=#{bid}")
+    void deleteByBid(String bid);
 }

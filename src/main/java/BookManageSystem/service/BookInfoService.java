@@ -38,4 +38,6 @@ public interface BookInfoService {
     List<BookOverview> queryBookOverviewByTypeName(String typeName);
 
     void addNewBook(BookOverview bookOverview);
+
+    void deleteBook(String bid);
 }
