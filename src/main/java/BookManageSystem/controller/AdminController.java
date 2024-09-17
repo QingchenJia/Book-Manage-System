@@ -1,15 +1,12 @@
 package BookManageSystem.controller;
 
 import BookManageSystem.pojo.Admin;
-import BookManageSystem.pojo.User;
 import BookManageSystem.pojo.resp.Result;
-import BookManageSystem.pojo.resp.data.BookOverview;
 import BookManageSystem.service.AdminService;
 import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,5 +39,11 @@ public class AdminController {
             return Result.success("修改成功");
         } else
             return Result.error("密码错误");
+    }
+
+    @GetMapping("/getInfo")
+    public Result getInfo(String aid) {
+        Admin admin = adminService.getInfo(aid);
+        return Result.success(admin);
     }
 }

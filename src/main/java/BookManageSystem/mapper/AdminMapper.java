@@ -10,8 +10,11 @@ import org.apache.ibatis.annotations.Update;
 public interface AdminMapper {
     @Select("SELECT * FROM admin WHERE aid=#{aid} AND passwd=#{passwd}")
     @ResultMap("Admin")
-    Admin searchByAidAndPasswd(Admin admin);
+    Admin selectByAidAndPasswd(Admin admin);
 
     @Update("UPDATE admin SET passwd=#{passwd} WHERE aid=#{aid}")
     void updatePasswd(Admin admin);
+
+    @Select("SELECT * FROM admin WHERE aid=#{aid}")
+    Admin selectByAid(String aid);
 }

@@ -39,7 +39,7 @@ public class BookTypeController {
         return Result.success("添加成功");
     }
 
-    @DeleteMapping("/deleteType")
+    @PostMapping("/deleteType")
     public Result deleteType(@RequestBody Map<String, Object> params) {
         String tid = (String) params.get("tid");
         bookTypeService.deleteTypeByTid(tid);

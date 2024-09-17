@@ -15,13 +15,18 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean verifyAdminAccount(Admin admin) throws Exception {
         passwd2ciphertext(admin);
-        return adminMapper.searchByAidAndPasswd(admin) != null;
+        return adminMapper.selectByAidAndPasswd(admin) != null;
     }
 
     @Override
     public void changePasswd(Admin admin) throws Exception {
         passwd2ciphertext(admin);
         adminMapper.updatePasswd(admin);
+    }
+
+    @Override
+    public Admin getInfo(String aid) {
+        return adminMapper.selectByAid(aid);
     }
 
     private void passwd2ciphertext(Admin admin) throws Exception {
