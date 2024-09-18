@@ -111,7 +111,6 @@ public class UserController {
         return Result.success("修改成功");
     }
 
-
     @PostMapping("/resetPasswd")
     public Result resetPasswd(@RequestBody Map<String, Object> params) throws Exception {
         String uid = (String) params.get("uid");

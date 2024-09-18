@@ -43,7 +43,7 @@ public class AdminController {
 
     @GetMapping("/getInfo")
     public Result getInfo(String aid) {
-        Admin admin = adminService.getInfo(aid);
+        Admin admin = adminService.getInfoExceptPasswd(aid);
         return Result.success(admin);
     }
 }

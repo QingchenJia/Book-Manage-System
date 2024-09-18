@@ -7,5 +7,5 @@ public interface AdminService {
 
     void changePasswd(Admin admin) throws Exception;
 
-    Admin getInfo(String aid);
+    Admin getInfoExceptPasswd(String aid);
 }

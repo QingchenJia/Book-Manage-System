@@ -25,8 +25,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getInfo(String aid) {
-        return adminMapper.selectByAid(aid);
+    public Admin getInfoExceptPasswd(String aid) {
+        Admin admin = adminMapper.selectByAid(aid);
+        admin.setPasswd(null);
+
+        return admin;
     }
 
     private void passwd2ciphertext(Admin admin) throws Exception {
