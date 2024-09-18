@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -16,7 +17,10 @@ public class BookTypeServiceImpl implements BookTypeService {
 
     @Override
     public List<BookType> queryAllType() {
-        return bookTypeMapper.selectAll();
+        List<BookType> bookTypes = bookTypeMapper.selectAll();
+        bookTypes.sort(Comparator.comparing(BookType::getTid));
+
+        return bookTypes;
     }
 
     @Override
