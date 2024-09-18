@@ -24,28 +24,15 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        String role = request.getParameter("role");
-        if ("user".equals(role)) {
-            try {
-                JWTUtil.verifyJWT4User(token);
-            } catch (Exception e) {
-                log.info("令牌失效");
-                errorToken(response);
-
-                return false;
-            }
-        } else if ("admin".equals(role)) {
-            try {
-                JWTUtil.verifyJWT4Admin(token);
-            } catch (Exception e) {
-                log.info("令牌失效");
-                errorToken(response);
-
-                return false;
-            }
+        String role = null;
+        try {
+            role = JWTUtil.verifyJWT(token);
+        } catch (Exception e) {
+            log.info("令牌失效");
+            errorToken(response);
         }
 
-        log.info("令牌合法");
+        log.info(role + "令牌合法");
         return true;
     }
 

@@ -5,6 +5,8 @@ import BookManageSystem.mapper.BookTypeMapper;
 import BookManageSystem.mapper.BorrowMapper;
 import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.*;
+import BookManageSystem.pojo.resp.data.BookOverview;
+import BookManageSystem.pojo.resp.data.BookSearch;
 import BookManageSystem.pojo.resp.data.BorrowHistory;
 import BookManageSystem.pojo.resp.data.BorrowInfo;
 import BookManageSystem.service.BookInfoService;
@@ -77,19 +79,6 @@ class BookManageSystemApplicationTests {
         user.setPasswd("123456");
 
         System.out.println(JWTUtil.generateJWT4User(user));
-    }
-
-    @Test
-    void testParseToken() {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJVMTAxIiwicGFzc3dkIjoiMTIzNDU2IiwiZXhwIjoxNzI1MjgzMDIwfQ.KLNbvbzjjKJ8e6ncO0vsotuMQ8G30uy_xSdWHjXXl94";
-        User user = null;
-        try {
-            user = JWTUtil.verifyJWT4User(token);
-            System.out.println(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("令牌失效");
-        }
     }
 
     @Test
@@ -215,5 +204,17 @@ class BookManageSystemApplicationTests {
     @Test
     void testDeleteBookException() {
         bookInfoService.deleteBook("1");
+    }
+
+    @Test
+    void testBookSearchSort() {
+        List<BookSearch> bookSearches = bookInfoService.queryAllBookSearch("user");
+        bookSearches.forEach(System.out::println);
+    }
+
+    @Test
+    void testBookOverviewSort() {
+        List<BookOverview> bookOverviews = bookInfoService.queryAllBookOverview();
+        bookOverviews.forEach(System.out::println);
     }
 }
