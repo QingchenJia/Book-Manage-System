@@ -1,23 +1,16 @@
 package BookManageSystem.pojo.resp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Result {
     private int code;
     private String msg;
     private Object data;
-
-    public Result() {
-    }
-
-    public Result(int code, String msg, Object data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
 
     @Override
     public String toString() {
