@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-类型管理</title>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        #work_space {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+        #data_table {
+            padding: 0 20px;
+        }
+
+        .el-table {
+            margin-top: 20px;
+        }
+
+        .el-table-column {
+            text-align: center;
+        }
+
+        /* 调整表格操作按钮的显示 */
+        .el-button {
+            margin: 5px;
+        }
+
+        /* 隐藏横向滚动条 */
+        .el-scrollbar__wrap {
+            overflow-x: hidden !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="work_space">
+
+            <el-button type="primary" @click="visible = true">新增</el-button>
+
+            <el-dialog title="书籍类型" :visible.sync="visible">
+                <el-form :model="bookType" label-position="left" label-width="100px">
+                    <el-form-item label="类型ID">
+                        <el-input v-model="bookType.tid" autocomplete="off"></el-input>
+
+                    </el-form-item>
+
+
+                    <el-form-item label="类型名称">
+                        <el-input v-model="bookType.typeName" autocomplete="off"></el-input>
+
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="cancel_add()">取消</el-button>
+                    <el-button type="primary" @click="add_new_type(bookType)">确定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-input v-model="input" placeholder="请输入内容"></el-input>
+
+            <el-select v-model="choice" placeholder="请选择">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
+            <el-button type="primary" @click="search(input)">搜索</el-button>
+        </div>
+
+        <!-- 数据表格区域 -->
+        <template>
+            <div id="data_table">
+                <!-- 给el-scrollbar固定高度以实现上下滚动 -->
+                <el-scrollbar style="height: 600px" @scroll="handleScroll">
+                    <el-table :data="type_list" style="width: 100%">
+                        <el-table-column prop="tid" label="分类ID" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="typeName" label="分类名称" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="operation" label="操作" align="center">
+                            <template slot-scope="scope">
+                                <div>
+                                    <el-button type="primary" round @click="delete_type(scope.row.tid)">
+                                        删除
+                                    </el-button>
+                                </div>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+
+                </el-scrollbar>
+            </div>
+        </template>
+
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                input: "",
+                choice: "typeName",
+                options: [{
+                    value: "typeName",
+                    label: "按分类名称搜索"
+                }, {
+                    value: "tid",
+                    label: "按分类ID搜索"
+                }],
+                type_list: [],
+                bookType: {
+                    tid: "",
+                    typeName: ""
+                },
+                visible: false
+            }
+        },
+        methods: {
+            query_all() {
+                _this = this;
+
+                axios.get(
+                    "/BookType/queryAll"
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.type_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_typeName(input) {
+                _this = this;
+
+                axios.get(
+                    "/BookType/queryByTypeName" + "?typeName=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.type_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_tid(input) {
+                _this = this;
+
+                axios.get(
+                    "/BookType/queryByTid" + "?tid=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.type_list = resp.data.data;
+                    }
+                })
+            },
+
+            search(input) {
+                var choice = this.choice;
+
+                if (choice === "") {
+                    this.query_all();
+                } else {
+                    if (choice === "typeName") {
+                        this.query_by_typeName(input);
+                    } else if (choice === "tid") {
+                        this.query_by_tid(input);
+                    }
+                }
+
+            },
+
+            add_new_type(bookType) {
+                _this = this;
+
+                axios.post(
+                    "/BookType/addNewType",
+                    bookType
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success(resp.data.msg);
+                        _this.query_all();
+
+                        _this.cancel_add(); // 清空输入框 并关闭会话框
+                    }
+                })
+            },
+
+            delete_type(tid) {
+                _this = this;
+
+                axios.post(
+                    "/BookType/deleteType",
+                    {
+                        tid: tid
+                    }
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success(resp.data.msg);
+
+                        _this.query_all();
+                    }
+                })
+            },
+
+            cancel_add() {
+                this.bookType = {
+                    tid: "",
+                    typeName: ""
+                };
+
+                this.visible = false;
+            },
+
+            init_data() {
+                this.query_all();
+            }
+
+        },
+        created() {
+            var token = localStorage.getItem("token");
+            axios.defaults.headers.common['token'] = token;
+
+            this.init_data();
+        }
+    })
+</script>
+
+</html>

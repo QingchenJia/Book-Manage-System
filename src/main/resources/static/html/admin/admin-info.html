@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-管理信息</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+</head>
+
+<style>
+    .el-button {
+        margin: 5px;
+        width: 100px;
+    }
+</style>
+
+
+<body>
+    <div id="app">
+
+        <div id="info_form">
+
+            <el-form v-model="admin">
+
+                <el-form-item prop="aid">
+                    <el-input prefix-icon="el-icon-user" :disabled="true" v-model="admin.aid"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="passwd">
+                    <el-input prefix-icon="el-icon-lock" v-model="admin.passwd" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="newPasswd">
+                    <el-input prefix-icon="el-icon-lock" v-model="admin.newPasswd" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="againPasswd">
+                    <el-input prefix-icon="el-icon-lock" v-model="admin.againPasswd" show-password></el-input>
+                </el-form-item>
+
+            </el-form>
+
+            <el-row>
+
+                <el-button type="info" round @click="reset()">取消</el-button>
+                <el-button type="primary" round @click="change_passwd()">修改密码</el-button>
+
+            </el-row>
+
+
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                admin: {
+                    aid: "",
+                    passwd: "",
+                    newPasswd: "",
+                    againPasswd: "",
+                }
+            }
+        },
+        methods: {
+            init_data() {
+                aid = JSON.parse(localStorage.getItem("user")).aid;
+                _this = this;
+
+                axios.get(
+                    "/Admin/getInfo?aid=" + aid
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.admin = resp.data.data;
+                    }
+                })
+            },
+
+            change_passwd() {
+                var aid = this.admin.aid;
+                var passwd = this.admin.passwd;
+                var newPasswd = this.admin.newPasswd;
+                var againPasswd = this.admin.againPasswd;
+
+                _this = this;
+
+                if (passwd === newPasswd) {
+                    this.$message.error("新旧密码相同");
+                    return;
+                }
+
+                if (newPasswd !== againPasswd) {
+                    this.$message.error("两次输入密码不一致");
+                    return;
+                }
+
+                axios.post(
+                    "/Admin/changePasswd",
+                    {
+                        aid: aid,
+                        passwd: passwd,
+                        newPasswd: newPasswd,
+                    }
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success("修改成功");
+                        _this.init_data();
+                    } else {
+                        _this.$message.error(resp.data.msg);
+                    }
+                })
+            },
+
+            reset() {
+                this.init_data();
+            },
+        },
+        created() {
+            var token = localStorage.getItem("token");
+            axios.defaults.headers.common['token'] = token;
+
+            this.init_data();
+        }
+
+    })
+
+
+</script>
+
+</html>

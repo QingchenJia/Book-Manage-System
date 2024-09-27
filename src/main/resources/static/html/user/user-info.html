@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-用户信息</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+</head>
+
+<style>
+    .el-button {
+        margin: 5px;
+        width: 100px;
+    }
+</style>
+
+
+<body>
+    <div id="app">
+
+        <div id="info_form">
+
+            <el-form v-model="user">
+
+                <el-form-item prop="uid">
+                    <el-input prefix-icon="el-icon-user" :disabled="true" v-model="user.uid"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="name">
+                    <el-input prefix-icon="el-icon-user-solid" v-model="user.name" clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="passwd">
+                    <el-input prefix-icon="el-icon-lock" v-model="user.passwd" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="newPasswd">
+                    <el-input prefix-icon="el-icon-lock" v-model="user.newPasswd" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="againPasswd">
+                    <el-input prefix-icon="el-icon-lock" v-model="user.againPasswd" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="email">
+                    <el-input prefix-icon="el-icon-message" v-model="user.email" clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="phone">
+                    <el-input prefix-icon="el-icon-phone" v-model="user.phone" clearable></el-input>
+                </el-form-item>
+
+            </el-form>
+
+            <el-row>
+
+                <el-button type="info" round @click="reset()">取消</el-button>
+                <el-button type="primary" round @click="edit_info()">变更信息</el-button>
+                <el-button type="primary" round @click="change_passwd()">修改密码</el-button>
+
+            </el-row>
+
+
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                user: {
+                    uid: "",
+                    name: "",
+                    passwd: "",
+                    newPasswd: "",
+                    againPasswd: "",
+                    email: "",
+                    phone: ""
+                }
+            }
+        },
+        methods: {
+            init_data() {
+                uid = JSON.parse(localStorage.getItem("user")).uid;
+                _this = this;
+
+                axios.get(
+                    "/User/getInfo?uid=" + uid
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.user = resp.data.data;
+                    }
+                })
+            },
+
+            edit_info() {
+                var uid = this.user.uid;
+                var name = this.user.name;
+                var email = this.user.email;
+                var phone = this.user.phone;
+
+                _this = this;
+
+                axios.post(
+                    "/User/editInfo",
+                    {
+                        uid: uid,
+                        name: name,
+                        email: email,
+                        phone: phone
+                    }
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success("修改成功");
+                        _this.init_data();
+                    } else {
+                        _this.$message.error(resp.data.msg);
+                    }
+                })
+            },
+
+            change_passwd() {
+                var uid = this.user.uid;
+                var passwd = this.user.passwd;
+                var newPasswd = this.user.newPasswd;
+                var againPasswd = this.user.againPasswd;
+
+                _this = this;
+
+                if (passwd === newPasswd) {
+                    this.$message.error("新旧密码相同");
+                    return;
+                }
+
+                if (newPasswd !== againPasswd) {
+                    this.$message.error("两次输入密码不一致");
+                    return;
+                }
+
+                axios.post(
+                    "/User/changePasswd",
+                    {
+                        uid: uid,
+                        passwd: passwd,
+                        newPasswd: newPasswd,
+                    }
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success("修改成功");
+                        _this.init_data();
+                    } else {
+                        _this.$message.error(resp.data.msg);
+                    }
+                })
+            },
+
+            reset() {
+                this.init_data();
+            },
+        },
+        created() {
+            var token = localStorage.getItem("token");
+            axios.defaults.headers.common['token'] = token;
+
+            this.init_data();
+        }
+
+    })
+
+
+</script>
+
+</html>

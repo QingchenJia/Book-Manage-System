@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-借阅历史</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        #work_space {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+        #data_table {
+            padding: 0 20px;
+        }
+
+        .el-table {
+            margin-top: 20px;
+        }
+
+        .el-table-column {
+            text-align: center;
+        }
+
+        /* 调整表格操作按钮的显示 */
+        .el-button {
+            margin: 5px;
+        }
+
+        /* 隐藏横向滚动条 */
+        .el-scrollbar__wrap {
+            overflow-x: hidden !important;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div id="app">
+        <div id="work_space">
+            <el-input v-model="input" placeholder="请输入内容"></el-input>
+
+            <el-select v-model="choice" placeholder="请选择">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
+            <el-button type="primary" @click="search(input)">搜索</el-button>
+
+        </div>
+
+
+        <template>
+
+            <div id="data_table">
+
+                <el-scrollbar style="height: 600px;" @scroll="handleScroll">
+                    <el-table :data="borrow_history" style="width: 100%">
+                        <el-table-column prop="bookName" label="书名">
+                        </el-table-column>
+
+                        <el-table-column prop="bid" label="书号">
+                        </el-table-column>
+
+                        <el-table-column prop="borrowDate" label="借阅日期">
+                        </el-table-column>
+
+                        <el-table-column prop="returnDate" label="归还日期">
+                        </el-table-column>
+
+                    </el-table>
+                </el-scrollbar>
+                
+            </div>
+        </template>
+
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                input: "",
+                choice: "bookName",
+                options: [{
+                    value: "bookName",
+                    label: "按书名搜索"
+                }, {
+                    value: "bid",
+                    label: "按书号搜索"
+                }],
+                borrow_history: [],
+                uid: ""
+            }
+        },
+        methods: {
+            query_all() {
+                var uid = this.uid;
+                _this = this;
+
+                axios.get(
+                    "/Borrow/queryAllBorrowHistory?uid=" + uid
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.borrow_history = resp.data.data.map(item => ({
+                            bookName: item.bookName,
+                            bid: item.bid,
+                            borrowDate: _this.formatTimestamp(item.borrowDate),
+                            returnDate: _this.formatTimestamp(item.returnDate)
+                        }));
+                    }
+                })
+            },
+
+
+            query_by_bookName(input) {
+                var uid = this.uid;
+                _this = this;
+
+                axios.get(
+                    "/Borrow/queryBorrowHistoryByBookName?uid=" + uid + "&bookName=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.borrow_history = resp.data.data.map(item => ({
+                            bookName: item.bookName,
+                            bid: item.bid,
+                            borrowDate: _this.formatTimestamp(item.borrowDate),
+                            returnDate: _this.formatTimestamp(item.returnDate)
+                        }));
+                    }
+                })
+            },
+
+            query_by_bid(input) {
+                var uid = this.uid;
+                _this = this;
+
+                axios.get(
+                    "/Borrow/queryBorrowHistoryByBid?uid=" + uid + "&bid=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.borrow_history = resp.data.data.map(item => ({
+                            bookName: item.bookName,
+                            bid: item.bid,
+                            borrowDate: _this.formatTimestamp(item.borrowDate),
+                            returnDate: _this.formatTimestamp(item.returnDate)
+                        }));
+                    }
+                })
+            },
+
+            search(input) {
+                if (input === "") {
+                    this.query_all();
+                } else {
+                    var choice = this.choice;
+
+                    if (choice === "bookName") {
+                        this.query_by_bookName(input);
+                    } else if (choice === "bid") {
+                        this.query_by_bid(input);
+                    }
+                }
+            },
+
+            formatTimestamp(timestamp) {
+                // 将传入的 Timestamp 转换为 Date 对象
+                const date = new Date(timestamp);
+
+                // 获取年月日时分秒
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以要加1
+                const day = String(date.getDate()).padStart(2, '0');
+
+                // 自动根据时区进行解析
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+
+                // 拼接成需要的格式，不包括毫秒和时区
+                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            },
+
+            init_data() {
+                var uid = JSON.parse(localStorage.getItem("user")).uid;
+                this.uid = uid;
+
+                this.query_all();
+            }
+        },
+        created() {
+            var token = localStorage.getItem("token");
+            axios.defaults.headers.common['token'] = token;
+
+            this.init_data();
+        }
+
+    })
+
+</script>
+
+</html>

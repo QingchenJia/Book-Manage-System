@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-书籍查询</title>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        #work_space {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+        #data_table {
+            padding: 0 20px;
+        }
+
+        .el-table {
+            margin-top: 20px;
+        }
+
+        .el-table-column {
+            text-align: center;
+        }
+
+        /* 调整表格操作按钮的显示 */
+        .el-button {
+            margin: 5px;
+        }
+
+        /* 隐藏横向滚动条 */
+        .el-scrollbar__wrap {
+            overflow-x: hidden !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="work_space">
+            <el-button type="primary" @click="visible = true">新增</el-button>
+
+            <el-dialog title="书籍信息" :visible.sync="visible">
+                <el-form :model="bookInfo" label-position="left" label-width="100px">
+                    <el-form-item label="书籍编号">
+                        <el-input v-model="bookInfo.bid" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="书籍名称">
+                        <el-input v-model="bookInfo.bookName" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="作者">
+                        <el-input v-model="bookInfo.author" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="数量">
+                        <el-input v-model="bookInfo.num" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="出版社">
+                        <el-input v-model="bookInfo.press" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="类型">
+                        <el-input v-model="bookInfo.typeName" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="cancel_add()">取消</el-button>
+                    <el-button type="primary" @click="add_new_book(bookInfo)">确定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-input v-model="input" placeholder="请输入内容"></el-input>
+
+            <el-select v-model="choice" placeholder="请选择">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
+            <el-button type="primary" @click="search(input)">搜索</el-button>
+        </div>
+
+
+        <template>
+
+            <!-- 数据表格区域 -->
+            <div id="data_table">
+                <el-scrollbar style="height: 600px;" @scroll="handleScroll">
+
+                    <el-table :data="overview_list" style="width: 100%">
+                        <el-table-column prop="bookName" label="书名" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="bid" label="书号" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="author" label="作者" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="num" label="数量" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="press" label="出版社" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="typeName" label="分类类型" align="center">
+                        </el-table-column>
+
+                        <el-table-column prop="operation" label="操作" align="center">
+                            <template slot-scope="scope">
+                                <div>
+                                    <el-button type="danger" round>
+                                        删除
+                                    </el-button>
+
+                                </div>
+                            </template>
+                        </el-table-column>
+
+                    </el-table>
+
+                </el-scrollbar>
+
+            </div>
+
+        </template>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                input: "",
+                choice: "bookName",
+                options: [{
+                    value: "bookName",
+                    label: "按书名搜索"
+                }, {
+                    value: "author",
+                    label: "按作者搜索"
+                }, {
+                    value: "typeName",
+                    label: "按分类搜索"
+                }, {
+                    value: "bid",
+                    label: "按书号搜索"
+                }],
+                overview_list: [],
+                uid: "",
+                bookInfo: {
+                    bid: "",
+                    bookName: "",
+                    author: "",
+                    num: "",
+                    press: "",
+                    typeName: ""
+                },
+                visible: false
+            }
+        },
+        methods: {
+            query_all() {
+                _this = this;
+
+                axios.get(
+                    "/BookInfo/queryAllBookOverview"
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.overview_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_bookName(input) {
+                _this = this;
+
+                axios.get(
+                    "/BookInfo/queryBookOverviewByBookName" + "?bookName=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.overview_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_author(input) {
+                _this = this;
+
+                axios.get(
+                    "/BookInfo/queryBookOverviewByAuthor" + "?author=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.overview_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_typeName(input) {
+                _this = this;
+
+                axios.get(
+                    "/BookInfo/queryBookOverviewByTypeName" + "?&typeName=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.overview_list = resp.data.data;
+                    }
+                })
+            },
+
+            query_by_bid(input) {
+                var uid = this.uid;
+                _this = this;
+
+                axios.get(
+                    "/BookInfo/queryBookOverviewByBid" + "?bid=" + input
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.overview_list = resp.data.data;
+                    }
+                })
+            },
+
+            search(input) {
+                if (input === null) {
+                    query_all();
+                    return;
+                } else {
+                    var choice = this.choice;
+
+                    if (choice === "bookName") {
+                        this.query_by_bookName(input);
+                    } else if (choice === "author") {
+                        this.query_by_author(input);
+                    } else if (choice === "typeName") {
+                        this.query_by_typeName(input);
+                    } else if (choice === "bid") {
+                        this.query_by_bid(input);
+                    }
+                }
+            },
+
+            delete_book(bid) {
+                _this = this;
+
+                axios.post(
+                    "/BookInfo/deleteBook",
+                    {
+                        bid: bid
+                    }
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success(resp.data.msg);
+                    } else {
+                        _this.$message.error(resp.data.msg);
+                    }
+
+                    _this.query_all();
+                })
+            },
+
+            add_new_book(bookInfo) {
+                _this = this;
+
+                axios.post(
+                    "/BookInfo/addNewBook",
+                    bookInfo
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        _this.$message.success(resp.data.msg);
+
+                        _this.query_all();
+                    } else {
+                        _this.$message.error(resp.data.msg);
+                    }
+                })
+            },
+
+            cancel_add() {
+                this.bookInfo = {
+                    bid: "",
+                    bookName: "",
+                    author: "",
+                    num: "",
+                    press: "",
+                    typeName: ""
+                }
+
+                this.visible = false;
+            },
+
+            init_data() {
+                this.query_all();
+            }
+
+        },
+        created() {
+            var token = localStorage.getItem("token");
+            axios.defaults.headers.common['token'] = token;
+
+            this.init_data();
+        }
+    })
+</script>
+
+</html>

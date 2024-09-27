@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-用户注册</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url(../../img/bg1.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #app {
+            width: 400px;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #303133;
+        }
+
+        #register_form {
+            margin-bottom: 20px;
+        }
+
+        .el-link {
+            display: inline-block;
+        }
+
+        .el-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .el-button {
+            width: 125px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div id="title">图书管理系统-用户注册</div>
+
+        <div id="register_form">
+            <el-form v-model="user">
+                <el-form-item prop="uid">
+                    <el-input prefix-icon="el-icon-user" placeholder="请输入账号" v-model="user.uid" clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="passwd">
+                    <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="user.passwd"
+                        show-password></el-input>
+                </el-form-item>
+
+                <el-form-item prop="name">
+                    <el-input prefix-icon="el-icon-user-solid" placeholder="请输入姓名" v-model="user.name"
+                        clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="email">
+                    <el-input prefix-icon="el-icon-message" placeholder="请输入邮箱" v-model="user.email"
+                        clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="phone">
+                    <el-input prefix-icon="el-icon-phone" placeholder="请输入电话" v-model="user.phone" clearable></el-input>
+                </el-form-item>
+            </el-form>
+
+            <el-row>
+                <el-button type="primary" @click="Register(user)">立即注册</el-button>
+                <el-button type="info" @click="Reset()">重置信息</el-button>
+            </el-row>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                user: {
+                    uid: "",
+                    passwd: "",
+                    name: "",
+                    email: "",
+                    phone: ""
+                }
+            }
+        },
+        methods: {
+            Register(user) {
+                axios.post(
+                    "/User/register",
+                    user
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        this.$message({
+                            showClose: true,
+                            message: '注册成功,允许登录!',
+                            type: 'success'
+                        })
+
+                        this.$confirm('即将跳转至登录界面, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'success'
+                        }).then(() => {
+                            window.location.href = "/html/user/login.html";
+                        })
+
+                    } else {
+                        this.$message.error("注册失败");
+                    }
+                })
+            },
+            Reset() {
+                this.user = {
+                    uid: "",
+                    passwd: "",
+                    name: "",
+                    email: "",
+                    phone: ""
+                };
+            }
+        }
+    })
+</script>
+
+</html>

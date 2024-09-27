@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-管理主页</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        #app {
+            display: flex;
+            height: 95vh;
+        }
+
+        .mainHtml {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+
+        <div id="menu">
+            <el-col :span="24">
+                <el-menu :default-active="defAct" class="el-menu-vertical-demo">
+                    <div v-for="item in menuList" :key="item.id">
+                        <el-menu-item :index="item.id" @click="chooseMenu(item)">
+                            <i class="el-icon-document"></i>
+                            <span>{{ item.name }}</span>
+                        </el-menu-item>
+                    </div>
+                </el-menu>
+            </el-col>
+        </div>
+
+        <div class="mainHtml">
+            <div id="basic">
+                <span>{{ pageTitle }}</span>
+                <el-button type="danger" @click="logout" style="float: right;">退出登录</el-button>
+            </div>
+
+            <iframe :src="mainUrl" v-show="!loading"></iframe>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                defAct: '1',
+                menuList: [{
+                    id: "1",
+                    name: "书籍查询",
+                    url: "./book-overview.html"
+                }, {
+                    id: "2",
+                    name: "类型管理",
+                    url: "./book-type.html"
+                }, {
+                    id: "3",
+                    name: "用户列表",
+                    url: "./user-list.html"
+                }, {
+                    id: "4",
+                    name: "借阅信息",
+                    url: "./borrow-overview.html"
+                }, {
+                    id: "5",
+                    name: "管理信息",
+                    url: "./admin-info.html"
+                }],
+                mainUrl: "./book-overview.html",
+                pageTitle: "书籍查询",
+                loading: false,
+            }
+        },
+        methods: {
+            chooseMenu(item) {
+                this.loading = true;
+                this.mainUrl = item.url;
+                this.pageTitle = item.name;
+                this.closeLoading();
+            },
+
+            logout() {
+                this.$confirm('是否退出登录？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(resp => {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    top.location.replace("login.html");
+                });
+            },
+
+            closeLoading() {
+                this.loading = false;
+            }
+        },
+
+        mounted() {
+            this.closeLoading();
+        }
+    });
+</script>
+
+</html>

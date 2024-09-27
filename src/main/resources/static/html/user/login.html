@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>图书管理系统-用户登录</title>
+
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/axios.js"></script>
+    <script src="../../element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url(../../img/bg1.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #app {
+            width: 400px;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #303133;
+        }
+
+        #login_form {
+            margin-bottom: 20px;
+        }
+
+        .el-link {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .el-button {
+            width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="title">图书管理系统-用户登录</div>
+
+        <div id="login_form">
+            <el-form v-model="user">
+                <el-form-item prop="uid">
+                    <el-input prefix-icon="el-icon-user" placeholder="请输入账号" v-model="user.uid" clearable></el-input>
+                </el-form-item>
+
+                <el-form-item prop="passwd">
+                    <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="user.passwd"
+                        show-password></el-input>
+                </el-form-item>
+            </el-form>
+
+            <el-button type="primary" @click="Login(user)">登录</el-button>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <el-link type="primary" href="../admin/login.html">管理员登录</el-link>
+                <el-link type="primary" href="register.html">没有账号?注册</el-link>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                user: {
+                    uid: "",
+                    passwd: ""
+                },
+            }
+        },
+        methods: {
+            Login(user) {
+                _this = this;
+
+                axios.post(
+                    '/User/login',
+                    user
+                ).then(resp => {
+                    if (resp.data.code === 1) {
+                        this.$message({
+                            showClose: true,
+                            message: '登录成功,欢迎回来!',
+                            type: 'success',
+                            duration: 1000, // 控制显示时间，1秒后关闭
+                            onClose: () => {
+                                // 在消息框关闭后再执行跳转逻辑
+                                localStorage.setItem('user', JSON.stringify(this.user)); // 存储用户信息
+                                window.location.href = "index.html"; // 跳转到主页
+                            }
+                        });
+                    } else {
+                        this.$message.error(resp.data.msg);
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</html>
