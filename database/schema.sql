@@ -26,6 +26,7 @@ create table book_type
     tid       varchar(10) not null
         primary key,
     type_name varchar(10) not null,
+    is_delete int         null,
     constraint book_type_pk
         unique (type_name)
 );
@@ -39,6 +40,7 @@ create table book_info
     num       int         not null,
     press     varchar(15) not null,
     tid       varchar(5)  not null,
+    is_delete int         null,
     constraint book_info_book_type_tid_fk
         foreign key (tid) references book_type (tid)
 );
