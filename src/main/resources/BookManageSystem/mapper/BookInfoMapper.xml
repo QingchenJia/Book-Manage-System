@@ -10,5 +10,6 @@
         <result column="num" property="num"/>
         <result column="press" property="press"/>
         <result column="tid" property="tid"/>
+        <result column="is_delete" property="isDelete"/>
     </resultMap>
 </mapper>

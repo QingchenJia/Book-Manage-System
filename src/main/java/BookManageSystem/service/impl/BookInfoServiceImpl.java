@@ -1,5 +1,6 @@
 package BookManageSystem.service.impl;
 
+import BookManageSystem.exception.DeleteBorrowedBookException;
 import BookManageSystem.mapper.BookInfoMapper;
 import BookManageSystem.mapper.BookTypeMapper;
 import BookManageSystem.mapper.BorrowMapper;
@@ -139,6 +140,11 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public void deleteBook(String bid) {
+        int borrowedNum = borrowMapper.selectBorrowNumByBid(bid);
+
+        if (borrowedNum > 0)
+            throw new DeleteBorrowedBookException("删除借出书籍");
+
         bookInfoMapper.deleteByBid(bid);
     }
 

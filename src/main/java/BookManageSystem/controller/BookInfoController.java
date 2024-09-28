@@ -19,8 +19,8 @@ public class BookInfoController {
 
     @GetMapping("/queryAll")
     public Result queryAll() {
-        List<BookInfo> data = bookInfoService.queryAllBook();
-        return Result.success(data);
+        List<BookInfo> bookInfos = bookInfoService.queryAllBook();
+        return Result.success(bookInfos);
     }
 
     @GetMapping("/queryByBookName")

@@ -14,4 +14,5 @@ public class BookInfo {
     private int num;
     private String press;
     private String tid;
+    private int isDelete;
 }
