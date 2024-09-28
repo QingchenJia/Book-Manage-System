@@ -6,8 +6,8 @@ import BookManageSystem.mapper.BorrowMapper;
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.BookType;
 import BookManageSystem.pojo.Borrow;
-import BookManageSystem.pojo.resp.data.BookOverview;
-import BookManageSystem.pojo.resp.data.BookSearch;
+import BookManageSystem.pojo.resp.vo.BookOverview;
+import BookManageSystem.pojo.resp.vo.BookSearch;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -130,7 +130,8 @@ public class BookInfoServiceImpl implements BookInfoService {
                 bookOverview.getAuthor(),
                 bookOverview.getNum(),
                 bookOverview.getPress(),
-                tid
+                tid,
+                0
         );
 
         bookInfoMapper.insertBookInfo(bookInfo);

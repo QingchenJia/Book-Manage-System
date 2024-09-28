@@ -1,8 +1,8 @@
 package BookManageSystem.service;
 
 import BookManageSystem.pojo.BookInfo;
-import BookManageSystem.pojo.resp.data.BookOverview;
-import BookManageSystem.pojo.resp.data.BookSearch;
+import BookManageSystem.pojo.resp.vo.BookOverview;
+import BookManageSystem.pojo.resp.vo.BookSearch;
 
 import java.util.List;
 

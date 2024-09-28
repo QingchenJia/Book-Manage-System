@@ -2,8 +2,8 @@ package BookManageSystem.controller;
 
 import BookManageSystem.pojo.BookInfo;
 import BookManageSystem.pojo.resp.Result;
-import BookManageSystem.pojo.resp.data.BookOverview;
-import BookManageSystem.pojo.resp.data.BookSearch;
+import BookManageSystem.pojo.resp.vo.BookOverview;
+import BookManageSystem.pojo.resp.vo.BookSearch;
 import BookManageSystem.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
