@@ -1,5 +1,6 @@
 package BookManageSystem.service.impl;
 
+import BookManageSystem.exception.DeleteNoEmptyTypeException;
 import BookManageSystem.mapper.BookTypeMapper;
 import BookManageSystem.pojo.BookType;
 import BookManageSystem.service.BookTypeService;
@@ -48,6 +49,11 @@ public class BookTypeServiceImpl implements BookTypeService {
 
     @Override
     public void deleteTypeByTid(String tid) {
+        int bookNum = bookTypeMapper.selectBookNumByTid(tid);
+
+        if (bookNum > 0)
+            throw new DeleteNoEmptyTypeException("删除非空类型");
+
         bookTypeMapper.deleteByTid(tid);
     }
 }

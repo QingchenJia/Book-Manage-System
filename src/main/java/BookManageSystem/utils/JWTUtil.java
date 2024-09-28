@@ -13,7 +13,7 @@ public class JWTUtil {
     public static String generateJWT4User(User user) {
         return JWT.create()
                 .withHeader(new HashMap<>())
-                .withClaim("role", "user")
+                .withClaim("role", "User")
                 .withClaim("uid", user.getUid())
                 .withClaim("passwd", user.getPasswd())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
@@ -23,7 +23,7 @@ public class JWTUtil {
     public static String generateJWT4Admin(Admin admin) {
         return JWT.create()
                 .withHeader(new HashMap<>())
-                .withClaim("role", "admin")
+                .withClaim("role", "Admin")
                 .withClaim("aid", admin.getAid())
                 .withClaim("passwd", admin.getPasswd())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000))

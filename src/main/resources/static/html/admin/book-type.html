@@ -95,7 +95,7 @@
                         <el-table-column prop="operation" label="操作" align="center">
                             <template slot-scope="scope">
                                 <div>
-                                    <el-button type="primary" round @click="delete_type(scope.row.tid)">
+                                    <el-button type="danger" round @click="delete_type(scope.row.tid)">
                                         删除
                                     </el-button>
                                 </div>
@@ -196,6 +196,8 @@
                         _this.query_all();
 
                         _this.cancel_add(); // 清空输入框 并关闭会话框
+                    } else {
+                        _this.$message.error(resp.data.msg);
                     }
                 })
             },
@@ -213,6 +215,8 @@
                         _this.$message.success(resp.data.msg);
 
                         _this.query_all();
+                    } else {
+                        _this.$message.error(resp.data.msg);
                     }
                 })
             },
