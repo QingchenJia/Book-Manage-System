@@ -6,6 +6,8 @@ A simple library management system web project consisting of both users and admi
 
 #### 软件架构
 
+##### 后端
+
 `Spring-Boot` and `Maven`:Quickly simplify the configuration of the spring program and manage the dependencies of project coordinates.
 
 `Mybatis`:Improve the efficiency of data layer development and facilitate the writing and debugging of SQL statements.
@@ -17,6 +19,14 @@ A simple library management system web project consisting of both users and admi
 `JWT`:Generate a corresponding token based on user information to authenticate access to resources.
 
 `fastjson`:Efficient conversion of Ethan format to and from Java Object.
+
+##### 前端
+
+`Vue`:Accelerate front-end page development and simplify the DOM code for JavaScript.
+
+`Element-UI`:A library of Vue 2.0-based desktop components for developers, designers, and product managers.
+
+`axios`:A Prometheus-based web request library that can be used for browsers and node.js. It is able to efficiently handle all kinds of requests sent to the browser.
 
 #### 基本功能
 
