@@ -6,5 +6,6 @@
     <resultMap id="BookType" type="BookManageSystem.pojo.BookType">
         <id column="tid" property="tid"/>
         <result column="type_name" property="typeName"/>
+        <result column="is_delete" property="isDelete"/>
     </resultMap>
 </mapper>

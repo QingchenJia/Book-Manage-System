@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class BookType {
     private String tid;
     private String typeName;
+    private int isDelete;
 }
