@@ -122,7 +122,7 @@
                         <el-table-column prop="operation" label="操作" align="center">
                             <template slot-scope="scope">
                                 <div>
-                                    <el-button type="danger" round>
+                                    <el-button type="danger" round @click="delete_book(scope.row.bid)">
                                         删除
                                     </el-button>
 

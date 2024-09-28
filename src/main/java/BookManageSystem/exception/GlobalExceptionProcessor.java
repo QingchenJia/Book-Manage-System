@@ -11,7 +11,7 @@ public class GlobalExceptionProcessor {
     @ExceptionHandler(Exception.class)
     public Result exception(Exception ex) {
         ex.printStackTrace();
-        log.info("违规操作");
+        log.warn("违规操作");
         return Result.error("违规操作");
     }
 }
