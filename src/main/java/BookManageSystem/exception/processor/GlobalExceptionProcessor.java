@@ -1,4 +1,4 @@
-package BookManageSystem.exception;
+package BookManageSystem.exception.processor;
 
 import BookManageSystem.pojo.resp.Result;
 import lombok.extern.slf4j.Slf4j;

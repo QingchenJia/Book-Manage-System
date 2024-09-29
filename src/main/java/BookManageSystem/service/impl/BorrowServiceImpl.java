@@ -1,5 +1,6 @@
 package BookManageSystem.service.impl;
 
+import BookManageSystem.exception.BeyondBorrowLimitException;
 import BookManageSystem.mapper.BookInfoMapper;
 import BookManageSystem.mapper.BorrowMapper;
 import BookManageSystem.mapper.UserMapper;
@@ -88,12 +89,12 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void borrowBook(String bid, String uid, Timestamp borrowDate) throws Exception {
+    public void borrowBook(String bid, String uid, Timestamp borrowDate) {
         int borrowedNum = borrowMapper.selectBorrowNumByUid(uid);
         int maxBorrowNum = userMapper.selectBorrowNumByUid(uid);
 
-        if (borrowedNum == maxBorrowNum) {
-            throw new Exception("借阅数量已达上限");
+        if (borrowedNum >= maxBorrowNum) {
+            throw new BeyondBorrowLimitException("借阅超过上限");
         }
 
         int borrowDays = userMapper.selectBorrowDaysByUid(uid);
