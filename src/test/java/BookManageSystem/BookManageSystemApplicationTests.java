@@ -217,4 +217,13 @@ class BookManageSystemApplicationTests {
         List<BookOverview> bookOverviews = bookInfoService.queryAllBookOverview();
         bookOverviews.forEach(System.out::println);
     }
+
+    @Test
+    void testBuildObject() {
+        Admin admin = Admin.builder()
+                .aid("123")
+                .passwd("123")
+                .build();
+        System.out.println("admin = " + admin);
+    }
 }

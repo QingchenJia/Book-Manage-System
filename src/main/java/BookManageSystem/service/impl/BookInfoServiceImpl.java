@@ -125,15 +125,15 @@ public class BookInfoServiceImpl implements BookInfoService {
     public void addNewBook(BookOverview bookOverview) {
         String tid = bookTypeMapper.selectByTypeName(bookOverview.getTypeName()).getTid();
 
-        BookInfo bookInfo = new BookInfo(
-                bookOverview.getBid(),
-                bookOverview.getBookName(),
-                bookOverview.getAuthor(),
-                bookOverview.getNum(),
-                bookOverview.getPress(),
-                tid,
-                0
-        );
+        BookInfo bookInfo = BookInfo.builder()
+                .bid(bookOverview.getBid())
+                .bookName(bookOverview.getBookName())
+                .author(bookOverview.getAuthor())
+                .num(bookOverview.getNum())
+                .press(bookOverview.getPress())
+                .tid(tid)
+                .isDelete(0)
+                .build();
 
         bookInfoMapper.insertBookInfo(bookInfo);
     }
@@ -156,15 +156,19 @@ public class BookInfoServiceImpl implements BookInfoService {
             int borrowNum = borrowMapper.selectBorrowNumByBid(bookInfo.getBid());
             Borrow borrow = borrowMapper.selectByBidAndUidAndIsNotReturn(bookInfo.getBid(), uid);   // 同一个人借阅同一本书可能多次 仅查询最新一次 即尚未归还
 
-            bookSearches.add(new BookSearch(
-                    bookInfo.getBookName(),
-                    bookInfo.getBid(),
-                    bookInfo.getAuthor(),
-                    bookInfo.getNum() - borrowNum,  // 书籍存量减去借出数量得到余量
-                    bookInfo.getPress(),
-                    bookType.getTypeName(),
-                    borrow != null && borrow.getIsReturn() == 0 ? "借阅中" : "注意余量"
-            ));
+            int leftNum = bookInfo.getNum() - borrowNum;    // 书籍存量减去借出数量得到余量
+            String status = borrow == null ? "注意余量" : "借阅中";
+
+            bookSearches.add(BookSearch.builder()
+                    .bookName(bookInfo.getBookName())
+                    .bid(bookInfo.getBid())
+                    .author(bookInfo.getAuthor())
+                    .num(leftNum)
+                    .press(bookInfo.getPress())
+                    .typeName(bookType.getTypeName())
+                    .status(status)
+                    .build()
+            );
         }
 
         bookSearches.sort(Comparator.comparing(BookSearch::getBid));    // 根据ID字符串排序
@@ -182,14 +186,14 @@ public class BookInfoServiceImpl implements BookInfoService {
 
             String typeName = bookTypeMapper.selectByTid(bookInfo.getTid()).getTypeName();
 
-            bookOverviews.add(new BookOverview(
-                    bookInfo.getBookName(),
-                    bookInfo.getBid(),
-                    bookInfo.getAuthor(),
-                    leftNum,
-                    bookInfo.getPress(),
-                    typeName
-            ));
+            bookOverviews.add(BookOverview.builder()
+                    .bookName(bookInfo.getBookName())
+                    .bid(bookInfo.getBid())
+                    .author(bookInfo.getAuthor())
+                    .num(leftNum)
+                    .press(bookInfo.getPress())
+                    .typeName(typeName)
+                    .build());
         }
 
         bookOverviews.sort(Comparator.comparing(BookOverview::getBid));

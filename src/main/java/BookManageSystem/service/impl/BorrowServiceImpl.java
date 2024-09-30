@@ -152,12 +152,13 @@ public class BorrowServiceImpl implements BorrowService {
         for (Borrow borrow : borrows) {
             BookInfo bookInfo = bookInfoMapper.selectByBid(borrow.getBid());
 
-            borrowInfos.add(new BorrowInfo(
-                    bookInfo.getBookName(),
-                    borrow.getBid(),
-                    borrow.getBorrowDate(),
-                    borrow.getDueDate()
-            ));
+            borrowInfos.add(BorrowInfo.builder()
+                    .bookName(bookInfo.getBookName())
+                    .bid(borrow.getBid())
+                    .borrowDate(borrow.getBorrowDate())
+                    .dueDate(borrow.getDueDate())
+                    .build()
+            );
         }
 
         borrowInfos.sort((o1, o2) -> {
@@ -176,12 +177,13 @@ public class BorrowServiceImpl implements BorrowService {
         for (Borrow borrow : borrows) {
             BookInfo bookInfo = bookInfoMapper.selectByBid(borrow.getBid());
 
-            borrowHistories.add(new BorrowHistory(
-                    bookInfo.getBookName(),
-                    borrow.getBid(),
-                    borrow.getBorrowDate(),
-                    borrow.getReturnDate()
-            ));
+            borrowHistories.add(BorrowHistory.builder()
+                    .bookName(bookInfo.getBookName())
+                    .bid(borrow.getBid())
+                    .borrowDate(borrow.getBorrowDate())
+                    .returnDate(borrow.getReturnDate())
+                    .build()
+            );
         }
 
         borrowHistories.sort((o1, o2) -> {
@@ -212,15 +214,17 @@ public class BorrowServiceImpl implements BorrowService {
             String bookName = bookInfoMapper.selectByBid(borrow.getBid()).getBookName();
             String userName = userMapper.selectByUid(borrow.getUid()).getName();
 
-            borrowOverviews.add(new BorrowOverview(
-                    bookName,
-                    borrow.getBid(),
-                    borrow.getUid(),
-                    userName,
-                    borrow.getBorrowDate(),
-                    borrow.getDueDate(),
-                    borrow.getIsReturn() == 1 ? "已归还" : "借阅中"
-            ));
+            String status = borrow.getIsReturn() == 1 ? "已归还" : "借阅中";
+
+            borrowOverviews.add(BorrowOverview.builder()
+                    .bookName(bookName)
+                    .bid(borrow.getBid())
+                    .uid(borrow.getUid())
+                    .userName(userName)
+                    .borrowDate(borrow.getBorrowDate())
+                    .dueDate(borrow.getDueDate())
+                    .status(status)
+                    .build());
         }
 
         borrowOverviews.sort((o1, o2) -> {
