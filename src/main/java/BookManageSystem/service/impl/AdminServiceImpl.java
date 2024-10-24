@@ -14,13 +14,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean verifyAdminAccount(Admin admin) throws Exception {
-        passwd2ciphertext(admin);
+        parsePasswd(admin);
         return adminMapper.selectByAidAndPasswd(admin) != null;
     }
 
     @Override
     public void changePasswd(Admin admin) throws Exception {
-        passwd2ciphertext(admin);
+        parsePasswd(admin);
         adminMapper.updatePasswd(admin);
     }
 
@@ -32,8 +32,10 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
-    private void passwd2ciphertext(Admin admin) throws Exception {
-        String ciphertext = CipherUtil.encrypt(admin.getPasswd());
-        admin.setPasswd(ciphertext);
+    private void parsePasswd(Admin admin) throws Exception {
+        // 将前端传递的密文解密，再进行哈希
+        String decrypt = CipherUtil.decrypt(admin.getPasswd());
+        String sha256 = CipherUtil.hashSHA256(decrypt);
+        admin.setPasswd(sha256);
     }
 }

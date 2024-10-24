@@ -1,7 +1,7 @@
 package BookManageSystem.controller;
 
-import BookManageSystem.pojo.entity.User;
 import BookManageSystem.common.Result;
+import BookManageSystem.pojo.entity.User;
 import BookManageSystem.service.UserService;
 import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/editInfo")
-    public Result editInfo(@RequestBody Map<String, Object> params) {
+    public Result editInfo(@RequestBody Map<String, Object> params) throws Exception {
         String uid = (String) params.get("uid");
         String name = (String) params.get("name");
         String email = (String) params.get("email");
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/getInfo")
-    public Result getInfo(String uid) {
+    public Result getInfo(String uid) throws Exception {
         User user = userService.getUserInfoExceptPasswd(uid);
         return Result.success(user);
     }
@@ -114,7 +114,7 @@ public class UserController {
     @PostMapping("/resetPasswd")
     public Result resetPasswd(@RequestBody Map<String, Object> params) throws Exception {
         String uid = (String) params.get("uid");
-        userService.changePasswd(uid, "123456");
+        userService.changePasswd(uid, "8J9Je8e093V8Jiu+ily0yQ==");  // 重置密码为：123456
 
         return Result.success("重置成功");
     }

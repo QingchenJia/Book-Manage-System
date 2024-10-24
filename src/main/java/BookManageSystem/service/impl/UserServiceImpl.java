@@ -17,33 +17,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyUserAccount(User user) throws Exception {
-        passwd2ciphertext(user);
+        parsePasswd(user);
         return userMapper.selectByUidAndPasswd(user) != null;
     }
 
     @Override
     public void addNewUser(User user) throws Exception {
-        passwd2ciphertext(user);
+        parsePasswd(user);
         userMapper.insertUser(user);
     }
 
     @Override
-    public void editUserInfo(User user) {
+    public void editUserInfo(User user) throws Exception {
+        parseInfo(user);
         userMapper.updateUser(user);
     }
 
     @Override
-    public User getUserInfoExceptPasswd(String uid) {
+    public User getUserInfoExceptPasswd(String uid) throws Exception {
         User user = userMapper.selectByUid(uid);
         user.setPasswd(null);
+
+        processInfo(user);
 
         return user;
     }
 
     @Override
     public void changePasswd(String uid, String passwd) throws Exception {
-        String ciphertext = CipherUtil.encrypt(passwd);
-        userMapper.updatePasswdByUid(uid, ciphertext);
+        String decrypt = CipherUtil.decrypt(passwd);
+        String sha256 = CipherUtil.hashSHA256(decrypt);
+        userMapper.updatePasswdByUid(uid, sha256);
     }
 
     @Override
@@ -75,8 +79,30 @@ public class UserServiceImpl implements UserService {
         userMapper.updateBorrowNumByUid(uid, borrowNum);
     }
 
-    private void passwd2ciphertext(User user) throws Exception {
-        String ciphertextPasswd = CipherUtil.encrypt(user.getPasswd());
-        user.setPasswd(ciphertextPasswd);
+    private void parsePasswd(User user) throws Exception {
+        String decrypt = CipherUtil.decrypt(user.getPasswd());
+        String sha256 = CipherUtil.hashSHA256(decrypt);
+        user.setPasswd(sha256);
+    }
+
+    private void parseInfo(User user) throws Exception {
+        String decryptName = CipherUtil.decrypt(user.getName());
+        String decryptEmail = CipherUtil.decrypt(user.getEmail());
+        String decryptPhone = CipherUtil.decrypt(user.getPhone());
+
+        user.setName(decryptName);
+        user.setEmail(decryptEmail);
+        user.setPhone(decryptPhone);
+    }
+
+    private void processInfo(User user) throws Exception {
+        // 加密基本信息，发送给前端解密
+        String encryptName = CipherUtil.encrypt(user.getName());
+        String encryptEmail = CipherUtil.encrypt(user.getEmail());
+        String encryptPhone = CipherUtil.encrypt(user.getPhone());
+
+        user.setName(encryptName);
+        user.setEmail(encryptEmail);
+        user.setPhone(encryptPhone);
     }
 }

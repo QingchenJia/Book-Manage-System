@@ -226,4 +226,16 @@ class BookManageSystemApplicationTests {
                 .build();
         System.out.println("admin = " + admin);
     }
+
+    @Test
+    void testHash256() throws Exception {
+        String s = CipherUtil.hashSHA256("123456");
+        System.out.println(s);
+    }
+
+    @Test
+    void testAESEncrypt() throws Exception {
+        String encrypt = CipherUtil.encrypt("123456");
+        System.out.println(encrypt);
+    }
 }

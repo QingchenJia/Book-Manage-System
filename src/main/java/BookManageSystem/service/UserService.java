@@ -9,9 +9,9 @@ public interface UserService {
 
     void addNewUser(User user) throws Exception;
 
-    void editUserInfo(User user);
+    void editUserInfo(User user) throws Exception;
 
-    User getUserInfoExceptPasswd(String uid);
+    User getUserInfoExceptPasswd(String uid) throws Exception;
 
     void changePasswd(String uid, String passwd) throws Exception;
 
