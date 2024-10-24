@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
 
+    <script src="../../js/cipher.js"></script>
+
 </head>
 
 <style>
@@ -87,7 +89,8 @@
                 })
             },
 
-            change_passwd() {
+            async change_passwd() {
+                // 异步等待 AES加密
                 var aid = this.admin.aid;
                 var passwd = this.admin.passwd;
                 var newPasswd = this.admin.newPasswd;
@@ -105,21 +108,28 @@
                     return;
                 }
 
-                axios.post(
-                    "/Admin/changePasswd",
-                    {
-                        aid: aid,
-                        passwd: passwd,
-                        newPasswd: newPasswd,
-                    }
-                ).then(resp => {
-                    if (resp.data.code === 1) {
-                        _this.$message.success("修改成功");
-                        _this.init_data();
-                    } else {
-                        _this.$message.error(resp.data.msg);
-                    }
-                })
+                try {
+                    const encryptedPasswd = await encrypt(passwd);
+                    const encryptedNewPasswd = await encrypt(newPasswd);
+
+                    axios.post(
+                        "/Admin/changePasswd",
+                        {
+                            aid: aid,
+                            passwd: encryptedPasswd,
+                            newPasswd: encryptedNewPasswd
+                        }
+                    ).then(resp => {
+                        if (resp.data.code === 1) {
+                            _this.$message.success("修改成功");
+                            _this.init_data();
+                        } else {
+                            _this.$message.error(resp.data.msg);
+                        }
+                    })
+                } catch (error) {
+                    _this.$message.error("服务故障");
+                }
             },
 
             reset() {

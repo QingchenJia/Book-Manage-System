@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
 
+    <script src="../../js/cipher.js"></script>
+
     <style>
         body {
             background-color: #f0f2f5;
@@ -94,33 +96,43 @@
             }
         },
         methods: {
-            Login(admin) {
+            async Login(admin) {
                 _this = this;
 
-                axios.post(
-                    '/Admin/login',
-                    admin
-                ).then(resp => {
-                    if (resp.data.code === 1) {
-                        this.$message({
-                            showClose: true,
-                            message: '登录成功,欢迎回来!',
-                            type: 'success',
-                            duration: 1000, // 控制显示时间，1秒后关闭
-                            onClose: () => {
-                                // 在消息框关闭后再执行跳转逻辑
-                                var token = resp.data.data;
+                try {
+                    // 异步等待 AES加密
+                    var passwd = admin.passwd;
+                    const encryptedPasswd = await encrypt(passwd);
 
-                                localStorage.setItem('user', JSON.stringify(this.admin)); // 存储用户信息
-                                localStorage.setItem('token', token); // 存储JWT令牌
+                    admin.passwd = encryptedPasswd;
 
-                                window.location.href = "index.html" // 跳转到主页
-                            }
-                        });
-                    } else {
-                        this.$message.error(resp.data.msg);
-                    }
-                })
+                    axios.post(
+                        '/Admin/login',
+                        admin
+                    ).then(resp => {
+                        if (resp.data.code === 1) {
+                            _this.$message({
+                                showClose: true,
+                                message: '登录成功,欢迎回来!',
+                                type: 'success',
+                                duration: 500, // 控制显示时间，0.5秒后关闭
+                                onClose: () => {
+                                    // 在消息框关闭后再执行跳转逻辑
+                                    var token = resp.data.data;
+
+                                    localStorage.setItem('user', JSON.stringify(this.admin)); // 存储用户信息
+                                    localStorage.setItem('token', token); // 存储JWT令牌
+
+                                    window.location.href = "index.html" // 跳转到主页
+                                }
+                            });
+                        } else {
+                            _this.$message.error(resp.data.msg);
+                        }
+                    })
+                } catch (error) {
+                    this.$message.error("服务故障");
+                }
             }
         }
     })
