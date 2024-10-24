@@ -1,9 +1,9 @@
 package BookManageSystem.service;
 
-import BookManageSystem.pojo.Borrow;
-import BookManageSystem.pojo.resp.vo.BorrowHistory;
-import BookManageSystem.pojo.resp.vo.BorrowInfo;
-import BookManageSystem.pojo.resp.vo.BorrowOverview;
+import BookManageSystem.pojo.entity.Borrow;
+import BookManageSystem.pojo.vo.BorrowHistory;
+import BookManageSystem.pojo.vo.BorrowInfo;
+import BookManageSystem.pojo.vo.BorrowOverview;
 
 import java.sql.Timestamp;
 import java.util.List;

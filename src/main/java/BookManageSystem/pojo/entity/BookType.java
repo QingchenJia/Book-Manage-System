@@ -1,4 +1,4 @@
-package BookManageSystem.pojo;
+package BookManageSystem.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookInfo {
-    private String bid;
-    private String bookName;
-    private String author;
-    private int num;
-    private String press;
+public class BookType {
     private String tid;
+    private String typeName;
     private int isDelete;
 }

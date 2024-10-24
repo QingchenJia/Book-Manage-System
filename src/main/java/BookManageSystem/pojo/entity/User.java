@@ -1,4 +1,4 @@
-package BookManageSystem.pojo;
+package BookManageSystem.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package BookManageSystem.service;
 
-import BookManageSystem.pojo.BookType;
+import BookManageSystem.pojo.entity.BookType;
 
 import java.util.List;
 

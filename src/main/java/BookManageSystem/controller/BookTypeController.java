@@ -1,7 +1,7 @@
 package BookManageSystem.controller;
 
-import BookManageSystem.pojo.BookType;
-import BookManageSystem.pojo.resp.Result;
+import BookManageSystem.pojo.entity.BookType;
+import BookManageSystem.common.Result;
 import BookManageSystem.service.BookTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

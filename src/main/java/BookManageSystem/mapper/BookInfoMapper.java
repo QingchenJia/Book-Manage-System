@@ -1,6 +1,6 @@
 package BookManageSystem.mapper;
 
-import BookManageSystem.pojo.BookInfo;
+import BookManageSystem.pojo.entity.BookInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

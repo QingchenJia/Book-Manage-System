@@ -1,4 +1,4 @@
-package BookManageSystem.pojo;
+package BookManageSystem.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Borrow {
+public class BorrowInfo {
+    private String bookName;
     private String bid;
-    private String uid;
     private Timestamp borrowDate;
     private Timestamp dueDate;
-    private Timestamp returnDate;
-    private int isReturn;
 }

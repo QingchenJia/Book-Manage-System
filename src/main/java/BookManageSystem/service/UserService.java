@@ -1,6 +1,6 @@
 package BookManageSystem.service;
 
-import BookManageSystem.pojo.User;
+import BookManageSystem.pojo.entity.User;
 
 import java.util.List;
 

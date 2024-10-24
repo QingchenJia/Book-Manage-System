@@ -2,7 +2,7 @@ package BookManageSystem.service.impl;
 
 import BookManageSystem.exception.DeleteNoEmptyTypeException;
 import BookManageSystem.mapper.BookTypeMapper;
-import BookManageSystem.pojo.BookType;
+import BookManageSystem.pojo.entity.BookType;
 import BookManageSystem.service.BookTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

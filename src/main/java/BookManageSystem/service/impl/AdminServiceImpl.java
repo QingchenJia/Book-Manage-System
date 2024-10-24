@@ -1,7 +1,7 @@
 package BookManageSystem.service.impl;
 
 import BookManageSystem.mapper.AdminMapper;
-import BookManageSystem.pojo.Admin;
+import BookManageSystem.pojo.entity.Admin;
 import BookManageSystem.service.AdminService;
 import BookManageSystem.utils.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;

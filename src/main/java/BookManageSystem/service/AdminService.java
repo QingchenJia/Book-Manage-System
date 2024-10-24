@@ -1,6 +1,6 @@
 package BookManageSystem.service;
 
-import BookManageSystem.pojo.Admin;
+import BookManageSystem.pojo.entity.Admin;
 
 public interface AdminService {
     boolean verifyAdminAccount(Admin admin) throws Exception;

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BookManageSystem.mapper.BookTypeMapper">
-    <resultMap id="BookType" type="BookManageSystem.pojo.BookType">
+    <resultMap id="BookType" type="BookManageSystem.pojo.entity.BookType">
         <id column="tid" property="tid"/>
         <result column="type_name" property="typeName"/>
         <result column="is_delete" property="isDelete"/>

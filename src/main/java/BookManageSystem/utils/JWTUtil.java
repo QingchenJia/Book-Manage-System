@@ -1,7 +1,7 @@
 package BookManageSystem.utils;
 
-import BookManageSystem.pojo.Admin;
-import BookManageSystem.pojo.User;
+import BookManageSystem.pojo.entity.Admin;
+import BookManageSystem.pojo.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;

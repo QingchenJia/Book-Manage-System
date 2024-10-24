@@ -1,10 +1,10 @@
 package BookManageSystem.controller;
 
-import BookManageSystem.pojo.Borrow;
-import BookManageSystem.pojo.resp.Result;
-import BookManageSystem.pojo.resp.vo.BorrowHistory;
-import BookManageSystem.pojo.resp.vo.BorrowInfo;
-import BookManageSystem.pojo.resp.vo.BorrowOverview;
+import BookManageSystem.pojo.entity.Borrow;
+import BookManageSystem.common.Result;
+import BookManageSystem.pojo.vo.BorrowHistory;
+import BookManageSystem.pojo.vo.BorrowInfo;
+import BookManageSystem.pojo.vo.BorrowOverview;
 import BookManageSystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package BookManageSystem.mapper;
 
-import BookManageSystem.pojo.Borrow;
+import BookManageSystem.pojo.entity.Borrow;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
