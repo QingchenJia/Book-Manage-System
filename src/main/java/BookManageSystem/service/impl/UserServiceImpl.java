@@ -2,6 +2,7 @@ package BookManageSystem.service.impl;
 
 import BookManageSystem.mapper.UserMapper;
 import BookManageSystem.pojo.entity.User;
+import BookManageSystem.pojo.vo.UserBasicInfo;
 import BookManageSystem.service.UserService;
 import BookManageSystem.utils.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserInfoExceptPasswd(String uid) throws Exception {
+    public UserBasicInfo getUserBasicInfo(String uid) throws Exception {
         User user = userMapper.selectByUid(uid);
-        user.setPasswd(null);
 
-        processInfo(user);
-
-        return user;
+        return processInfo(user);
     }
 
     @Override
@@ -95,14 +93,16 @@ public class UserServiceImpl implements UserService {
         user.setPhone(decryptPhone);
     }
 
-    private void processInfo(User user) throws Exception {
+    private UserBasicInfo processInfo(User user) throws Exception {
         // 加密基本信息，发送给前端解密
-        String encryptName = CipherUtil.encrypt(user.getName());
         String encryptEmail = CipherUtil.encrypt(user.getEmail());
         String encryptPhone = CipherUtil.encrypt(user.getPhone());
 
-        user.setName(encryptName);
-        user.setEmail(encryptEmail);
-        user.setPhone(encryptPhone);
+        return UserBasicInfo.builder()
+                .uid(user.getUid())
+                .name(user.getName())
+                .email(encryptEmail)
+                .phone(encryptPhone)
+                .build();
     }
 }

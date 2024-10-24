@@ -2,6 +2,7 @@ package BookManageSystem.controller;
 
 import BookManageSystem.common.Result;
 import BookManageSystem.pojo.entity.User;
+import BookManageSystem.pojo.vo.UserBasicInfo;
 import BookManageSystem.service.UserService;
 import BookManageSystem.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,8 @@ public class UserController {
 
     @GetMapping("/getInfo")
     public Result getInfo(String uid) throws Exception {
-        User user = userService.getUserInfoExceptPasswd(uid);
-        return Result.success(user);
+        UserBasicInfo userBasicInfo = userService.getUserBasicInfo(uid);
+        return Result.success(userBasicInfo);
     }
 
     @PostMapping("/changePasswd")

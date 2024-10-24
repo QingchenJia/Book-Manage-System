@@ -1,6 +1,7 @@
 package BookManageSystem.service;
 
 import BookManageSystem.pojo.entity.User;
+import BookManageSystem.pojo.vo.UserBasicInfo;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     void editUserInfo(User user) throws Exception;
 
-    User getUserInfoExceptPasswd(String uid) throws Exception;
+    UserBasicInfo getUserBasicInfo(String uid) throws Exception;
 
     void changePasswd(String uid, String passwd) throws Exception;
 

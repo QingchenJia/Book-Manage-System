@@ -104,26 +104,19 @@
                         _this.user = resp.data.data;
 
                         // 确保用户数据已经被赋值，再进行解密操作
-                        const name = _this.user.name;
                         const email = _this.user.email;
                         const phone = _this.user.phone;
 
                         // 解密用户信息
-                        const decryptedName = await decrypt(name);
                         const decryptedEmail = await decrypt(email);
                         const decryptedPhone = await decrypt(phone);
 
                         // 将解密后的信息赋值回去
-                        _this.user.name = decryptedName;
                         _this.user.email = decryptedEmail;
                         _this.user.phone = decryptedPhone;
-
-                    } else {
-                        _this.$message.error("获取用户信息失败");
                     }
                 } catch (error) {
                     _this.$message.error("服务故障");
-                    console.error("Error during user info fetching or decryption: ", error);
                 }
             },
 
