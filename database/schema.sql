@@ -2,23 +2,17 @@ create schema if not exists bookmanagesystem;
 
 use bookmanagesystem;
 
+drop table if exists admin;
+drop table if exists book_type;
+drop table if exists book_info;
+drop table if exists user;
+drop table if exists borrow;
+
 create table admin
 (
-    aid    varchar(10) not null
+    aid    varchar(10)  not null
         primary key,
-    passwd varchar(50) not null
-);
-
-create table user
-(
-    uid         varchar(20) not null
-        primary key,
-    passwd      varchar(50) not null,
-    name        varchar(10) not null,
-    email       varchar(20) not null,
-    phone       varchar(11) not null,
-    borrow_num  int         not null,
-    borrow_days int         not null
+    passwd varchar(256) not null
 );
 
 create table book_type
@@ -43,6 +37,18 @@ create table book_info
     is_delete int         null,
     constraint book_info_book_type_tid_fk
         foreign key (tid) references book_type (tid)
+);
+
+create table user
+(
+    uid         varchar(20)  not null
+        primary key,
+    passwd      varchar(256) not null,
+    name        varchar(10)  not null,
+    email       varchar(20)  not null,
+    phone       varchar(11)  not null,
+    borrow_num  int          not null,
+    borrow_days int          not null
 );
 
 create table borrow
